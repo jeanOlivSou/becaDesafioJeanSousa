@@ -62,4 +62,14 @@ public class ItemPedido {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "ItemPedido{" +
+                "id=" + id +
+                ", qtd=" + qtd +
+                ", preco=" + preco +
+                ", lanche=" + lanche +
+                '}';
+    }
 }

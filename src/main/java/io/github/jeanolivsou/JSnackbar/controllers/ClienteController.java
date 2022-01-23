@@ -14,11 +14,6 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<Cliente>
     criar(@RequestBody Cliente cliente) {
-
-        if (cliente.getNome().length() <= 3) {
-            return ResponseEntity.unprocessableEntity().build();
-        }
-
         cliente.setId(2);
 
         System.out.println(cliente);
@@ -27,7 +22,8 @@ public class ClienteController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Cliente> atualizar(@RequestBody Cliente cliente, @PathVariable Integer id){
+    public ResponseEntity<Cliente>
+    atualizar(@RequestBody Cliente cliente, @PathVariable Integer id){
         cliente.setId(id);
         System.out.println(cliente);
         return ResponseEntity.ok(cliente);
