@@ -8,6 +8,7 @@ public class JSnackbarApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JSnackbarApplication.class, args);
+
 	}
 
 }
