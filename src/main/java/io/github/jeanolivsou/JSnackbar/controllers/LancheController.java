@@ -1,6 +1,8 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+import io.github.jeanolivsou.JSnackbar.services.LancheService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,57 +13,50 @@ import java.util.List;
 @RequestMapping("/lanche")
 public class LancheController {
 
+    @Autowired
+    LancheService lancheService;
+
     @PostMapping
     public ResponseEntity<Lanche>
     criar(@RequestBody Lanche lanche){
-        lanche.setId(2);
-        System.out.println(lanche);
-        return ResponseEntity.created(null).body(lanche);
+
+        Lanche lancheCriado =
+                lancheService.criar(lanche);
+
+        return ResponseEntity.created(null).body(lancheCriado);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Lanche> atualizar(@RequestBody Lanche lanche, @PathVariable Integer id){
-        lanche.setId(id);
-        System.out.println(lanche);
-        return ResponseEntity.ok(lanche);
+    public ResponseEntity<Lanche>
+    atualizar(@RequestBody Lanche lanche, @PathVariable Integer id){
+        Lanche lancheCriado = lancheService.atualizar(lanche, id);
+        return ResponseEntity.ok(lancheCriado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Lanche>
     deletar(@PathVariable Integer id){
+
+        lancheService.deletar(id);
+
        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<List<Lanche>> listar(){
-        Lanche l1 = new Lanche(1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
 
-        Lanche l2 = new Lanche(2,
-                "Mini Pizza",
-                "lorem ipsum",
-                3.50 );
+        List<Lanche> lancheCriado =
+                lancheService.listar();
 
-        Lanche l3 = new Lanche(3,
-                "Pastel",
-                "Lorem ipsum",
-                2.0);
-
-        var lista = Arrays.asList(l1, l2, l3);
-
-        return ResponseEntity.ok(lista);
+        return ResponseEntity.ok(lancheCriado);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Lanche> obter(@PathVariable Integer id) {
-        Lanche l1 = new Lanche(1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
 
-        return ResponseEntity.ok(l1);
+        Lanche lancheObtido = lancheService.obter(id);
+
+        return ResponseEntity.ok(lancheObtido);
     }
 
 

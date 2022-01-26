@@ -2,6 +2,8 @@ package io.github.jeanolivsou.JSnackbar.controllers;
 
 
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
+import io.github.jeanolivsou.JSnackbar.services.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -11,77 +13,49 @@ import java.util.List;
 @RequestMapping("/cliente")
 public class ClienteController {
 
+    @Autowired
+    private ClienteService clienteService;
+
     @PostMapping
     public ResponseEntity<Cliente>
     criar(@RequestBody Cliente cliente) {
-        cliente.setId(2);
 
-        System.out.println(cliente);
-        return ResponseEntity.created(null).body(cliente);
+        Cliente clienteCriado = clienteService.criar(cliente);
 
+        return ResponseEntity.created(null).body(clienteCriado);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Cliente>
-    atualizar(@RequestBody Cliente cliente, @PathVariable Integer id){
-        cliente.setId(id);
-        System.out.println(cliente);
-        return ResponseEntity.ok(cliente);
+    atualizar(@RequestBody Cliente cliente, @PathVariable Integer id) {
+
+        Cliente clienteAtualizado =
+                clienteService.atualizar(cliente, id);
+
+        return ResponseEntity
+                .ok(clienteAtualizado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletar(@PathVariable Integer id){
+        clienteService.deletar(id);
+
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<List<Cliente>> listar(){
+        List<Cliente> clienteLista =
+                clienteService.listar();
 
-        Cliente c1 = new Cliente();
-        c1.setId(1);
-        c1.setNome("zé");
-        c1.setEndereco("jdshfjsdhf");
-        c1.setCpf(1232115485);
-        c1.setTel(846563);
-        c1.setSenha("dkhjfdoshfol");
-        c1.setEmail("kjfgksdjdlk");
-
-        Cliente c2 = new Cliente();
-        c2.setId(2);
-        c2.setNome("lica");
-        c2.setEndereco("jdshfjsdhf");
-        c2.setCpf(1232115485);
-        c2.setTel(846563);
-        c2.setSenha("dkhjfdoshfol");
-        c2.setEmail("kjfgksdjdlk");
-
-        Cliente c3 = new Cliente();
-        c3.setId(3);
-        c3.setNome("doca");
-        c3.setEndereco("jdshfjsdhf");
-        c3.setCpf(1232115485);
-        c3.setTel(846563);
-        c3.setSenha("dkhjfdoshfol");
-        c3.setEmail("kjfgksdjdlk");
-
-        return ResponseEntity.ok(List.of(c1, c2, c3));
+        return ResponseEntity.ok(clienteLista);
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> obter(@PathVariable Integer id) {
-        System.out.println("obteve!" + id);
-
-        Cliente c1 = new Cliente();
-        c1.setId(id);
-        c1.setNome("zé");
-        c1.setEndereco("jdshfjsdhf");
-        c1.setCpf(1232115485);
-        c1.setTel(846563);
-        c1.setSenha("dkhjfdoshfol");
-        c1.setEmail("kjfgksdjdlk");
-
-        return ResponseEntity.ok(c1);
+        Cliente clienteObtido = clienteService.obter(id);
+        return ResponseEntity.ok(clienteObtido);
 
     }
 
