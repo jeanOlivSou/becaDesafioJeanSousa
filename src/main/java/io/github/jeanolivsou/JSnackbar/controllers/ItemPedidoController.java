@@ -1,7 +1,6 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
-import io.github.jeanolivsou.JSnackbar.entities.Lanche;
 import io.github.jeanolivsou.JSnackbar.services.ItemPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ import java.util.List;
 public class ItemPedidoController {
 
     @Autowired
-    ItemPedidoService itemPedidoService;
+    private ItemPedidoService itemPedidoService;
 
     @PostMapping
     public ResponseEntity<ItemPedido>

@@ -4,7 +4,6 @@ import io.github.jeanolivsou.JSnackbar.entities.Cliente;
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
 import io.github.jeanolivsou.JSnackbar.entities.Pedido;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 

@@ -14,7 +14,7 @@ import java.util.List;
 public class LancheController {
 
     @Autowired
-    LancheService lancheService;
+    private LancheService lancheService;
 
     @PostMapping
     public ResponseEntity<Lanche>
