@@ -6,3 +6,11 @@ _____________
 # Modelo conceitual
 
 ![classesJSnackbar.drawio.png](classesJSnackbar.drawio.png)
+
+_____________
+
+# Endpoints
+
+ Centralizado | Alinhado a direita
+:---------: | :------: 
+Valor | Valor | Valor
