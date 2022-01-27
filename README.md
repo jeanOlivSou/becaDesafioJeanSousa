@@ -25,13 +25,13 @@ _____________
  GET `/itempedido/{id}` | Retorna um item de pedido de um id específico
  GET `/pedido` | Retorna todos os pedidos
  GET `/pedido{id}` | Retorna um pedido do id específico
- PATCH `/cliente/{id}`| atualiza um cliente do id específico
- PATCH `/lanche/{id}` | atualiza um lanche do id específico
- PATCH `/itempedido/{id}`  | atualiza um item de pedido do id específico
- PATCH `/pedido/{id}` | atualiza um pedido do id específico
- DELETE `/cliente/{id}`| atualiza um cliente do id específico
- DELETE `/lanche/{id}` | atualiza um lanche do id específico
- DELETE `/itempedido/{id}`  | atualiza um item de pedido do id específico
- DELETE `/pedido/{id}` | atualiza um pedido do id específico
+ PATCH `/cliente/{id}`| Atualiza um cliente do id específico
+ PATCH `/lanche/{id}` | Atualiza um lanche do id específico
+ PATCH `/itempedido/{id}`  | Atualiza um item de pedido do id específico
+ PATCH `/pedido/{id}` | Atualiza um pedido do id específico
+ DELETE `/cliente/{id}`| Exclui um cliente do id específico
+ DELETE `/lanche/{id}` | Exclui um lanche do id específico
+ DELETE `/itempedido/{id}`  | Exclui um item de pedido do id específico
+ DELETE `/pedido/{id}` | Exclui um pedido do id específico
 
 
