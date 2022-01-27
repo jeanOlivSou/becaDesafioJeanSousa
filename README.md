@@ -14,7 +14,7 @@ _____________
  Requisições | Descrição
 :---------: | :------------------: 
  POST `/cliente` | Cadastra um cliente dentro do sistema
- POST /lanche | Cadastra um lanche dentro do sistema
+ POST `/lanche` | Cadastra um lanche dentro do sistema
  POST /itempedido | Adciona um item de pedido ao pedido do cliente
  POST /pedido | Cdastra um pedido do cliente com o item de pedido
  GET /cliente | Retorna todos os clientes cadastrados
