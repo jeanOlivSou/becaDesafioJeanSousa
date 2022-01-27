@@ -36,7 +36,8 @@ _____________
 
 Exemplo de JSON para requisição POST `/pedido`:
 
-`{
+```json 
+{
     "id": 2,
     "dataPedido": "2022-01-24T16:07:55.958+00:00",
     "cliente": {
@@ -63,5 +64,6 @@ Exemplo de JSON para requisição POST `/pedido`:
     ],
     "total": 3.00,
     "status": "Preparando"
-}`
+}
+```
 
