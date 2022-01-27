@@ -17,7 +17,6 @@ _____________
  POST /lanche | Cadastra um lanche dentro do sistema
  POST /itempedido | Adciona um item de pedido ao pedido do cliente
  POST /pedido | Cdastra um pedido do cliente com o item de pedido
-              |
  GET /cliente | Retorna todos os clientes cadastrados
  GET /cliente/{id} | Retorna um cliente de um id específico
  GET /lanche | Retorna todos os lanches cadastrados
