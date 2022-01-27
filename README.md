@@ -15,7 +15,7 @@ Para testes desta API é necessário uma aplicação cliente para enviar as requ
 como o [Postman](https://www.postman.com/)
 
  Requisições | Descrição
-:---------: | :------------------: 
+:--------- | :------------------
  POST `/cliente` | Cadastra um cliente dentro do sistema
  POST `/lanche` | Cadastra um lanche dentro do sistema
  POST `/itempedido` | Adciona um item de pedido ao pedido do cliente
