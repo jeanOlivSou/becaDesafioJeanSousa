@@ -63,4 +63,14 @@ public class Lanche
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Lanche{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", desc='" + desc + '\'' +
+                ", precoUnit=" + precoUnit +
+                '}';
+    }
 }
