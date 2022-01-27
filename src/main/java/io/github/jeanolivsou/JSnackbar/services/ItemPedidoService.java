@@ -35,22 +35,27 @@ public class ItemPedidoService {
     }
 
     public List<ItemPedido> listar(){
-        Lanche l1 = new Lanche(1,
+
+        Lanche l1 = new Lanche(
+                1,
                 "Coxinha",
                 "sdkjlksjflkjsdjshf",
                 1.50);
 
-        Lanche l2 = new Lanche(2,
+        Lanche l2 = new Lanche(
+                2,
                 "Mini Pizza",
                 "lorem ipsum",
                 3.50 );
 
 
-        ItemPedido it1 = new ItemPedido(1,
+        ItemPedido it1 = new ItemPedido(
+                1,
                 2,
                 3.00,
                 l1);
-        ItemPedido it2 = new ItemPedido(2,
+        ItemPedido it2 = new ItemPedido(
+                2,
                 3,
                 10.50,
                 l2);
@@ -61,11 +66,13 @@ public class ItemPedidoService {
     }
 
     public ItemPedido obter(Integer id){
-        Lanche l1 = new Lanche(1,
+        Lanche l1 = new Lanche(
+                1,
                 "Coxinha",
                 "sdkjlksjflkjsdjshf",
                 1.50);
-        ItemPedido it1 = new ItemPedido(1,
+        ItemPedido it1 = new ItemPedido(
+                1,
                 2,
                 3.00,
                 l1);
