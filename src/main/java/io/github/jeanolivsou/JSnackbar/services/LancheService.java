@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class LancheService {
-
+    
     public Lanche criar(Lanche lanche){
         lanche.setId(2);
         System.out.println(lanche);
@@ -47,7 +47,7 @@ public class LancheService {
         return lista;
     }
 
-    public Lanche obter( Integer id) {
+    public Lanche obter(Integer id) {
         Lanche l1 = new Lanche(1,
                 "Coxinha",
                 "sdkjlksjflkjsdjshf",

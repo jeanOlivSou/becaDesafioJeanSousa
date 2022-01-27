@@ -30,14 +30,11 @@ public class ItemPedidoService {
         return itemPedido;
     }
 
-    public void
-    deletar(Integer id){
+    public void deletar(Integer id){
         // codigo aqui
     }
 
-
-    public List<ItemPedido>
-    listar(){
+    public List<ItemPedido> listar(){
         Lanche l1 = new Lanche(1,
                 "Coxinha",
                 "sdkjlksjflkjsdjshf",
@@ -62,7 +59,6 @@ public class ItemPedidoService {
 
         return itens;
     }
-
 
     public ItemPedido obter(Integer id){
         Lanche l1 = new Lanche(1,

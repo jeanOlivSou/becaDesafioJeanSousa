@@ -17,7 +17,6 @@ public class ClienteService {
 
     }
 
-
     public Cliente atualizar( Cliente cliente, Integer id){
         cliente.setId(id);
         System.out.println(cliente);
@@ -27,7 +26,6 @@ public class ClienteService {
     public void deletar(Integer id){
         // aqui seu codigo
     }
-
 
     public List<Cliente> listar(){
 

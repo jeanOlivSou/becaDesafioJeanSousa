@@ -14,8 +14,7 @@ import java.util.List;
 @Service
 public class PedidoService {
 
-    public Pedido
-    criar(Pedido pedido){
+    public Pedido criar(Pedido pedido){
 
         pedido.setId(2);
 
@@ -24,8 +23,7 @@ public class PedidoService {
         return pedido;
     }
 
-    public Pedido
-    atualizar(Pedido pedido, Integer id) {
+    public Pedido atualizar(Pedido pedido, Integer id) {
 
         pedido.setId(id);
 
@@ -34,11 +32,9 @@ public class PedidoService {
         return pedido;
     }
 
-
     public void deletar(Integer id){
-
+        //codigo aqui
     }
-
 
     public List<Pedido> listar(){
         Lanche l1 = new Lanche(1,
@@ -77,7 +73,6 @@ public class PedidoService {
 
         return pedidos;
     }
-
 
     public Pedido obter(Integer id){
         Lanche l3 = new Lanche(3,
