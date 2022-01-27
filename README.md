@@ -11,6 +11,9 @@ _____________
 
 # Endpoints
 
+Para testes desta API é necessário uma aplicação cliente para enviar as requisição para os endpoints
+como o [Postman](https://www.postman.com/)
+
  Requisições | Descrição
 :---------: | :------------------: 
  POST `/cliente` | Cadastra um cliente dentro do sistema
