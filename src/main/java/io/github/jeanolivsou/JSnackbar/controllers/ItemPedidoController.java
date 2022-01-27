@@ -1,7 +1,8 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
-import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+import io.github.jeanolivsou.JSnackbar.services.ItemPedidoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,68 +13,53 @@ import java.util.List;
 @RequestMapping("/itempedido")
 public class ItemPedidoController {
 
+    @Autowired
+    private ItemPedidoService itemPedidoService;
+
     @PostMapping
     public ResponseEntity<ItemPedido>
     criar(@RequestBody ItemPedido itemPedido){
-        itemPedido.setId(3);
-        System.out.println(itemPedido);
-        return ResponseEntity.created(null).body(itemPedido);
+
+        ItemPedido itemPedidoCriado =
+                itemPedidoService.criar(itemPedido);
+
+        return ResponseEntity
+                .created(null)
+                .body(itemPedidoCriado);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ItemPedido>
     atualizar(@RequestBody ItemPedido itemPedido, @PathVariable Integer id) {
-        itemPedido.setId(id);
-        System.out.println(itemPedido);
-        return ResponseEntity.ok(itemPedido);
+
+        ItemPedido itPedidoAtual = itemPedidoService.atualizar(itemPedido, id);
+
+        return ResponseEntity.ok(itPedidoAtual);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ItemPedido>
-    deletar(@PathVariable Integer id){
+    public ResponseEntity<ItemPedido> deletar(@PathVariable Integer id){
+
+        itemPedidoService.deletar(id);
+
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<List<ItemPedido>>
     listar(){
-        Lanche l1 = new Lanche(1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
 
-        Lanche l2 = new Lanche(2,
-                "Mini Pizza",
-                "lorem ipsum",
-                3.50 );
+        List<ItemPedido> itPedidoListado = itemPedidoService.listar();
 
-
-        ItemPedido it1 = new ItemPedido(1,
-                2,
-                3.00,
-                l1);
-        ItemPedido it2 = new ItemPedido(2,
-                3,
-                10.50,
-                l2);
-
-        List itens = Arrays.asList(it1, it2);
-
-        return ResponseEntity.ok(itens);
+        return ResponseEntity.ok(itPedidoListado);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemPedido> obter(@PathVariable Integer id){
-        Lanche l1 = new Lanche(1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
-        ItemPedido it1 = new ItemPedido(1,
-                2,
-                3.00,
-                l1);
 
-        return ResponseEntity.ok(it1);
+        ItemPedido itPedidoObtido = itemPedidoService.obter(id);
+
+        return ResponseEntity.ok(itPedidoObtido);
 
     }
 }
