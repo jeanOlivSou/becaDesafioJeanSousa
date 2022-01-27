@@ -11,6 +11,9 @@ _____________
 
 # Endpoints
 
- Centralizado | Alinhado a direita
-:---------: | :------: 
-Valor | Valor | Valor
+ Requisições | Descrição
+:---------: | :------------------: 
+ POST >/cliente | Cadastra um cliente dentro do sistema
+ POST >/lanche  | Cadastra um lanche dentro do sistema
+ POST >/itempedido | Adciona um item de pedido ao pedido do cliente
+ 
