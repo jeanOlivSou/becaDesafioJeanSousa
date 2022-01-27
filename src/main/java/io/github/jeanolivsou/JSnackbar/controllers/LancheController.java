@@ -28,7 +28,8 @@ public class LancheController {
     @PatchMapping("/{id}")
     public ResponseEntity<Lanche>
     atualizar(@RequestBody Lanche lanche, @PathVariable Integer id){
-        Lanche lancheCriado = lancheService.atualizar(lanche, id);
+        Lanche lancheCriado =
+                lancheService.atualizar(lanche, id);
         return ResponseEntity.ok(lancheCriado);
     }
 
@@ -51,7 +52,8 @@ public class LancheController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Lanche> obter(@PathVariable Integer id) {
+    public ResponseEntity<Lanche>
+    obter(@PathVariable Integer id) {
 
         Lanche lancheObtido = lancheService.obter(id);
 
