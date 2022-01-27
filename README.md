@@ -34,4 +34,34 @@ _____________
  DELETE `/itempedido/{id}`  | Exclui um item de pedido do id específico
  DELETE `/pedido/{id}` | Exclui um pedido do id específico
 
+Exemplo de JSON para requisição POST `/pedido`:
+
+`{
+    "id": 2,
+    "dataPedido": "2022-01-24T16:07:55.958+00:00",
+    "cliente": {
+        "id": 1,
+            "nome": "zeca",
+            "cpf": 25415454,
+            "endereco": "fgjdigodijgfoij",
+            "tel": 625151,
+            "senha": "dfkjgkdfjg",
+            "email": "djfdsjf"
+    },
+    "itens": [
+        {
+                "id": 1,
+                "qtd": 2,
+                "preco": 3.0,
+                "lanche": {
+                    "id": 1,
+                    "nome": "Coxinha",
+                    "desc": "sdkjlksjflkjsdjshf",
+                    "precoUnit": 1.5
+                }
+        }
+    ],
+    "total": 3.00,
+    "status": "Preparando"
+}`
 
