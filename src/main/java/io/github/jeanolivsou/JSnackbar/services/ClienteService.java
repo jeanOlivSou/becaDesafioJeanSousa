@@ -1,6 +1,8 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
+import io.github.jeanolivsou.JSnackbar.repositories.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -10,13 +12,14 @@ import java.util.List;
 @Service
 public class ClienteService {
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     public Cliente criar(Cliente cliente) {
 
-        cliente.setId(2);
+        Cliente clienteSalvo = clienteRepository.save(cliente);
 
-        System.out.println(cliente);
-
-        return cliente;
+        return clienteSalvo;
 
     }
 

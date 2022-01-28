@@ -1,8 +1,19 @@
 package io.github.jeanolivsou.JSnackbar.entities;
 
+import lombok.Data;
+import lombok.Generated;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
+@Entity
+@Data
 public class Cliente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
     private Integer cpf;
