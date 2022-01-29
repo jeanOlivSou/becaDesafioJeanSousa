@@ -1,6 +1,8 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+import io.github.jeanolivsou.JSnackbar.repositories.LacheRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -10,13 +12,14 @@ import java.util.List;
 @Service
 public class LancheService {
 
+    @Autowired
+    private LacheRepository lacheRepository;
+
     public Lanche criar(Lanche lanche){
 
-        lanche.setId(2);
+        Lanche lancheSalvo = lacheRepository.save(lanche);
 
-        System.out.println(lanche);
-
-        return lanche;
+        return lancheSalvo;
     }
 
     public Lanche atualizar( Lanche lanche, Integer id){

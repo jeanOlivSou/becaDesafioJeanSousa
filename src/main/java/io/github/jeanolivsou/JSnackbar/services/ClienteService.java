@@ -24,67 +24,35 @@ public class ClienteService {
     }
 
     public Cliente atualizar( Cliente cliente, Integer id){
+        Cliente clienteObtido = this.obter(id);
+        clienteObtido.setNome(cliente.getNome());
+        clienteObtido.setCpf(cliente.getCpf());
+        clienteObtido.setTel(cliente.getTel());
+        clienteObtido.setEndereco(cliente.getEndereco());
+        clienteObtido.setSenha(cliente.getSenha());
+        clienteObtido.setEmail(cliente.getEmail());
 
-        cliente.setId(id);
-
-        System.out.println(cliente);
+        clienteRepository.save(clienteObtido);
 
         return cliente;
     }
 
     public void deletar(Integer id){
-        // aqui seu codigo
+        clienteRepository.deleteById(id);
     }
 
     public List<Cliente> listar(){
 
-        Cliente c1 = new Cliente(
-                1,
-                "zé",
-                1232115485,
-                "jdshfjsdhf",
-                846563, "dkhjfdoshfol",
-                "kjfgksdjdlk");
-
-
-        Cliente c2 = new Cliente(
-                2,
-                "lica",
-                1232115485,
-                "jdshfjsdhf",
-                454682,
-                "dkhjfdoshfol",
-                "kjfgksdjdlk");
-
-
-        Cliente c3 = new Cliente(
-                3,
-                "Doca",
-                1232115485,
-                "jdshfjsdhf",
-                248486331,
-                "dkhjfdoshfol",
-                "kjfgksdjdlk");
-
-        List<Cliente> clienteLista = Arrays.asList(c1, c2, c3);
+        List<Cliente> clienteLista = Arrays.asList();
 
         return clienteLista;
 
     }
 
     public Cliente obter(Integer id) {
-        System.out.println("obteve!" + id);
+        Cliente cliente = clienteRepository.findById(id).get();
 
-        Cliente c1 = new Cliente();
-        c1.setId(id);
-        c1.setNome("zé");
-        c1.setEndereco("jdshfjsdhf");
-        c1.setCpf(1232115485);
-        c1.setTel(846563);
-        c1.setSenha("dkhjfdoshfol");
-        c1.setEmail("kjfgksdjdlk");
-
-        return c1;
+        return cliente;
 
     }
 }

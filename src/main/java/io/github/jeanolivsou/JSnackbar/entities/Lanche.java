@@ -2,10 +2,7 @@ package io.github.jeanolivsou.JSnackbar.entities;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Data
@@ -15,8 +12,11 @@ public class Lanche {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private String nome;
+    @Column(nullable = false)
     private String desc;
+    @Column(nullable = false)
     private Double precoUnit;
 
     public Lanche(){}
