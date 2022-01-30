@@ -12,11 +12,8 @@ public class Lanche {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(nullable = false)
     private String nome;
-    @Column(nullable = false)
     private String desc;
-    @Column(nullable = false)
     private Double precoUnit;
 
     public Lanche(){}

@@ -23,9 +23,16 @@ public class PedidoService {
 
     public Pedido atualizar(Pedido pedido, Integer id) {
 
-        pedido.setId(id);
+        Pedido pedidoObtido = this.obter(id);
+        pedidoRepository.save(pedidoObtido);
 
-        System.out.println(pedido);
+        pedidoObtido.setStatus(pedidoObtido.getStatus());
+        pedidoObtido.setDataPedido(pedidoObtido.getDataPedido());
+        pedidoObtido.setCliente(pedidoObtido.getCliente());
+        pedidoObtido.setItens(pedidoObtido.getItens());
+        pedidoObtido.setTotal(pedidoObtido.getTotal());
+
+        pedidoRepository.save(pedidoObtido);
 
         return pedido;
     }
@@ -41,13 +48,13 @@ public class PedidoService {
     }
 
     public Pedido obter(Integer id){
-        Pedido pedidoObtido =
+        Pedido pedido =
                 pedidoRepository
                         .findById(id)
                         .get();
 
 
-        return pedidoObtido;
+        return pedido;
 
     }
 }

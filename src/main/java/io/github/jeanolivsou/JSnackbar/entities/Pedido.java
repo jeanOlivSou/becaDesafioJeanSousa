@@ -22,6 +22,7 @@ public class Pedido {
 
     @OneToMany
     private List<ItemPedido> itens;
+
     private Double total;
 
     public Pedido() {

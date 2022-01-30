@@ -27,6 +27,8 @@ public class LancheService {
         lancheObtido.setDesc(lancheObtido.getDesc());
         lancheObtido.setPrecoUnit(lancheObtido.getPrecoUnit());
 
+        lacheRepository.save(lancheObtido);
+
         return lanche;
     }
 
