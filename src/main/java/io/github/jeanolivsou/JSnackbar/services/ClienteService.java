@@ -5,8 +5,6 @@ import io.github.jeanolivsou.JSnackbar.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -43,7 +41,7 @@ public class ClienteService {
 
     public List<Cliente> listar(){
 
-        List<Cliente> clienteLista = Arrays.asList();
+        List<Cliente> clienteLista = clienteRepository.findAll();
 
         return clienteLista;
 

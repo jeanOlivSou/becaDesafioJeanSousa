@@ -1,7 +1,8 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
-import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+import io.github.jeanolivsou.JSnackbar.repositories.ItemPedidoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -11,73 +12,44 @@ import java.util.List;
 @Service
 public class ItemPedidoService {
 
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
     public ItemPedido criar(ItemPedido itemPedido){
+        ItemPedido itemPedidoSalvo = itemPedidoRepository.save(itemPedido);
 
-        itemPedido.setId(3);
-
-        System.out.println(itemPedido);
-
-        return itemPedido;
+        return itemPedidoSalvo;
     }
 
     public ItemPedido atualizar(ItemPedido itemPedido, Integer id) {
+        ItemPedido itemPedidoObtido = this.obter(id);
+        itemPedidoObtido.setQtd(itemPedido.getQtd());
+        itemPedidoObtido.setPreco(itemPedido.getPreco());
+        itemPedidoObtido.setLanche(itemPedido.getLanche());
 
-        itemPedido.setId(id);
-
-        System.out.println(itemPedido);
+        itemPedidoRepository.save(itemPedidoObtido);
 
         return itemPedido;
     }
 
     public void deletar(Integer id){
-        // codigo aqui
+        itemPedidoRepository.deleteById(id);
     }
 
     public List<ItemPedido> listar(){
+        List<ItemPedido> itemPedidoLista =
+                itemPedidoRepository.findAll();
 
-        Lanche l1 = new Lanche(
-                1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
-
-        Lanche l2 = new Lanche(
-                2,
-                "Mini Pizza",
-                "lorem ipsum",
-                3.50 );
-
-
-        ItemPedido it1 = new ItemPedido(
-                1,
-                2,
-                3.00,
-                l1);
-        ItemPedido it2 = new ItemPedido(
-                2,
-                3,
-                10.50,
-                l2);
-
-        List itens = Arrays.asList(it1, it2);
-
-        return itens;
+        return itemPedidoLista;
     }
 
     public ItemPedido obter(Integer id){
-        Lanche l1 = new Lanche(
-                1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
-        ItemPedido it1 = new ItemPedido(
-                1,
-                2,
-                3.00,
-                l1);
+        ItemPedido itemPedidoObtido =
+                itemPedidoRepository
+                .findById(id)
+                .get();
 
-        return it1;
+        return itemPedidoObtido;
 
     }
 }
