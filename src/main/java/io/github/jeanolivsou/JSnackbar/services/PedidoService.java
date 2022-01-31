@@ -15,7 +15,10 @@ public class PedidoService {
     PedidoRepository pedidoRepository;
 
     public Pedido criar(Pedido pedido){
-        Pedido pedidoSalvo = pedidoRepository.save(pedido);
+
+        Pedido pedidoSalvo =
+                pedidoRepository
+                        .save(pedido);
 
 
         return pedidoSalvo;
@@ -23,38 +26,43 @@ public class PedidoService {
 
     public Pedido atualizar(Pedido pedido, Integer id) {
 
-        Pedido pedidoObtido = this.obter(id);
-        pedidoRepository.save(pedidoObtido);
+        Pedido pedidoAtual = this.obter(id);
 
-        pedidoObtido.setStatus(pedidoObtido.getStatus());
-        pedidoObtido.setDataPedido(pedidoObtido.getDataPedido());
-        pedidoObtido.setCliente(pedidoObtido.getCliente());
-        pedidoObtido.setItens(pedidoObtido.getItens());
-        pedidoObtido.setTotal(pedidoObtido.getTotal());
+        pedidoAtual.setStatus(pedido.getStatus());
+        pedidoAtual.setDataPedido(pedido.getDataPedido());
+        pedidoAtual.setCliente(pedido.getCliente());
+        pedidoAtual.setItens(pedido.getItens());
+        pedidoAtual.setTotal(pedido.getTotal());
 
-        pedidoRepository.save(pedidoObtido);
+        pedidoRepository.save(pedidoAtual);
+
 
         return pedido;
     }
 
     public void deletar(Integer id){
+
         pedidoRepository.deleteById(id);
+
     }
 
     public List<Pedido> listar(){
-        List<Pedido> pedidoLista = pedidoRepository.findAll();
+        List<Pedido> pedidoLista =
+                pedidoRepository
+                        .findAll();
 
         return pedidoLista;
     }
 
     public Pedido obter(Integer id){
-        Pedido pedido =
+
+        Pedido pedidoObtido =
                 pedidoRepository
                         .findById(id)
                         .get();
 
 
-        return pedido;
+        return pedidoObtido;
 
     }
 }

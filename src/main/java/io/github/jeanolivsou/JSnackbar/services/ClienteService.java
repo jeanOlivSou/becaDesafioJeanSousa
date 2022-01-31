@@ -15,40 +15,51 @@ public class ClienteService {
 
     public Cliente criar(Cliente cliente) {
 
-        Cliente clienteSalvo = clienteRepository.save(cliente);
+        Cliente clienteSalvo =
+                clienteRepository
+                        .save(cliente);
 
         return clienteSalvo;
 
     }
 
     public Cliente atualizar( Cliente cliente, Integer id){
-        Cliente clienteObtido = this.obter(id);
-        clienteObtido.setNome(cliente.getNome());
-        clienteObtido.setCpf(cliente.getCpf());
-        clienteObtido.setTel(cliente.getTel());
-        clienteObtido.setEndereco(cliente.getEndereco());
-        clienteObtido.setSenha(cliente.getSenha());
-        clienteObtido.setEmail(cliente.getEmail());
 
-        clienteRepository.save(clienteObtido);
+        Cliente clienteAtual = this.obter(id);
+
+        clienteAtual.setNome(cliente.getNome());
+        clienteAtual.setCpf(cliente.getCpf());
+        clienteAtual.setTel(cliente.getTel());
+        clienteAtual.setEndereco(cliente.getEndereco());
+        clienteAtual.setSenha(cliente.getSenha());
+        clienteAtual.setEmail(cliente.getEmail());
+
+        clienteRepository.save(clienteAtual);
 
         return cliente;
     }
 
     public void deletar(Integer id){
+
         clienteRepository.deleteById(id);
+        
     }
 
     public List<Cliente> listar(){
 
-        List<Cliente> clienteLista = clienteRepository.findAll();
+        List<Cliente> clienteLista =
+                clienteRepository
+                        .findAll();
 
         return clienteLista;
 
     }
 
     public Cliente obter(Integer id) {
-        Cliente cliente = clienteRepository.findById(id).get();
+        Cliente cliente =
+                clienteRepository
+                        .findById(id)
+                        .get();
 
         return cliente;
 
