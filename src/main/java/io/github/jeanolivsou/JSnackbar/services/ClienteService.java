@@ -42,7 +42,7 @@ public class ClienteService {
     public void deletar(Integer id){
 
         clienteRepository.deleteById(id);
-        
+
     }
 
     public List<Cliente> listar(){
@@ -56,12 +56,12 @@ public class ClienteService {
     }
 
     public Cliente obter(Integer id) {
-        Cliente cliente =
+        Cliente clienteObtido =
                 clienteRepository
                         .findById(id)
                         .get();
 
-        return cliente;
+        return clienteObtido;
 
     }
 }
