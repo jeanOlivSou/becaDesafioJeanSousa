@@ -56,7 +56,7 @@ public class ClienteService {
     }
 
     public Cliente obter(Integer id) {
-        
+
         Cliente clienteObtido =
                 clienteRepository
                         .findById(id)
