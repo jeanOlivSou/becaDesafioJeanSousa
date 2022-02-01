@@ -1,11 +1,21 @@
 package io.github.jeanolivsou.JSnackbar.entities;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.util.Objects;
 
+@Data
+@Entity
 public class ItemPedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private Integer qtd;
     private Double preco;
+
+    @ManyToOne
     private Lanche lanche;
 
     public ItemPedido() {

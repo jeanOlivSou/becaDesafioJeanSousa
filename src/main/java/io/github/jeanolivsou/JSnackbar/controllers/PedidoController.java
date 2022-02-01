@@ -21,18 +21,22 @@ public class PedidoController {
     public ResponseEntity<Pedido>
     criar(@RequestBody Pedido pedido){
 
-        Pedido pedidoCriado = pedidoService.criar(pedido);
+        Pedido pedidoCriado =
+                pedidoService
+                        .criar(pedido);
 
-        return ResponseEntity.ok(pedidoCriado);
+        return ResponseEntity.created(null).body(pedidoCriado);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Pedido>
     atualizar(@RequestBody Pedido pedido, @PathVariable Integer id) {
 
-        pedidoService.atualizar(pedido, id);
+        Pedido pedidoAtualizado =
+                pedidoService
+                        .atualizar(pedido, id);
 
-        return ResponseEntity.ok(pedido);
+        return ResponseEntity.ok(pedidoAtualizado);
     }
 
     @DeleteMapping("/{id}")
@@ -47,7 +51,8 @@ public class PedidoController {
     public ResponseEntity<List<Pedido>> listar(){
 
         List<Pedido> pedidoListado =
-                pedidoService.listar();
+                pedidoService
+                        .listar();
 
         return ResponseEntity.ok(pedidoListado);
     }
@@ -55,7 +60,9 @@ public class PedidoController {
     @GetMapping("/{id}")
     public ResponseEntity<Pedido> obter(@PathVariable Integer id){
 
-        Pedido pedidoObtido = pedidoService.obter(id);
+        Pedido pedidoObtido =
+                pedidoService
+                        .obter(id);
 
         return ResponseEntity.ok(pedidoObtido);
 

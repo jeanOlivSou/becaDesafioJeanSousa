@@ -1,136 +1,68 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
-import io.github.jeanolivsou.JSnackbar.entities.Cliente;
-import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
-import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+
 import io.github.jeanolivsou.JSnackbar.entities.Pedido;
+import io.github.jeanolivsou.JSnackbar.repositories.PedidoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class PedidoService {
 
+    @Autowired
+    PedidoRepository pedidoRepository;
+
     public Pedido criar(Pedido pedido){
 
-        pedido.setId(2);
+        Pedido pedidoSalvo =
+                pedidoRepository
+                        .save(pedido);
 
-        System.out.println(pedido);
 
-        return pedido;
+        return pedidoSalvo;
     }
 
     public Pedido atualizar(Pedido pedido, Integer id) {
 
-        pedido.setId(id);
+        Pedido pedidoAtual = this.obter(id);
 
-        System.out.println(pedido);
+        pedidoAtual.setStatus(pedido.getStatus());
+        pedidoAtual.setDataPedido(pedido.getDataPedido());
+        pedidoAtual.setCliente(pedido.getCliente());
+        pedidoAtual.setItens(pedido.getItens());
+        pedidoAtual.setTotal(pedido.getTotal());
+
+        pedidoRepository.save(pedidoAtual);
+
 
         return pedido;
     }
 
     public void deletar(Integer id){
-        //codigo aqui
+
+        pedidoRepository.deleteById(id);
+
     }
 
     public List<Pedido> listar(){
-
-        Lanche l1 = new Lanche(
-                1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
-
-        Lanche l2 = new Lanche(
-                2,
-                "Mini Pizza",
-                "lorem ipsum",
-                3.50 );
-
-        Lanche l3 = new Lanche(3,
-                "Pastel",
-                "Lorem ipsum",
-                2.0);
-
-        Cliente cl1 = new Cliente(1,
-                "zeca",
-                25415454,
-                "fgjdigodijgfoij",
-                625151,
-                "dfkjgkdfjg",
-                "djfdsjf" );
-
-        ItemPedido it1 = new ItemPedido(
-                1,
-                2,
-                3.00,
-                l1);
-        ItemPedido it2 = new ItemPedido(
-                2,
-                3,
-                10.50,
-                l2);
-
-
-        List itens = Arrays.asList(it1, it2);
-
-        Pedido p1 = new Pedido(
-                1,
-                "Preparando",
-                new Date(),
-                cl1,
-                itens,
-                3.00);
-
-        Pedido p2 = new Pedido(
-                2,
-                "Preparando",
-                new Date(),
-                cl1,
-                itens,
-                21.00);
-
-        List pedidoLista = Arrays.asList(p1, p2);
+        List<Pedido> pedidoLista =
+                pedidoRepository
+                        .findAll();
 
         return pedidoLista;
     }
 
     public Pedido obter(Integer id){
-        Lanche l3 = new Lanche(
-                3,
-                "Pastel",
-                "Lorem ipsum",
-                2.0);
 
-        Cliente cl1 = new Cliente(
-                1,
-                "zeca",
-                25415454,
-                "fgjdigodijgfoij",
-                625151,
-                "dfkjgkdfjg",
-                "djfdsjf" );
+        Pedido pedidoObtido =
+                pedidoRepository
+                        .findById(id)
+                        .get();
 
-        ItemPedido it1 = new ItemPedido(
-                1,
-                2,
-                4.0,
-                l3);
 
-        List itemPedidoLista = Arrays.asList(it1);
-
-        Pedido p1 = new Pedido(
-                id,
-                "Preparando",
-                new Date(),
-                cl1,
-                itemPedidoLista,
-                21.00);
-
-        return p1;
+        return pedidoObtido;
 
     }
 }
