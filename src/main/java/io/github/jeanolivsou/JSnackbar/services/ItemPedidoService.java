@@ -1,11 +1,15 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
+import io.github.jeanolivsou.JSnackbar.dtos.ItemPedidoDto;
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
 import io.github.jeanolivsou.JSnackbar.repositories.ItemPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,26 +18,27 @@ public class ItemPedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
-    public ItemPedido criar(ItemPedido itemPedido){
+    public ItemPedidoDto criar(ItemPedido itemPedido){
 
-        ItemPedido itemPedidoSalvo =
+        return new ItemPedidoDto(
                 itemPedidoRepository
-                        .save(itemPedido);
-
-        return itemPedidoSalvo;
+                        .save(itemPedido));
     }
 
-    public ItemPedido atualizar(ItemPedido itemPedido, Integer id) {
+    public ItemPedido atualizar(ItemPedidoDto itemPedidoDto, Integer id) {
 
-        ItemPedido itemPedidoAtual = this.obter(id);
+        return itemPedidoRepository
+                .findById(id)
+                .map(itemPedido -> {
+                    itemPedido.setQtd(itemPedidoDto.getQtd());
+                    itemPedido.setPreco(itemPedidoDto.getPreco());
+                    itemPedido.setLanche(itemPedidoDto.getLanche());
 
-        itemPedidoAtual.setQtd(itemPedido.getQtd());
-        itemPedidoAtual.setPreco(itemPedido.getPreco());
-        itemPedidoAtual.setLanche(itemPedido.getLanche());
-
-        itemPedidoRepository.save(itemPedidoAtual);
-
-        return itemPedido;
+                    return itemPedidoRepository.save(itemPedido);
+                })
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND));
     }
 
     public void deletar(Integer id){
@@ -42,23 +47,26 @@ public class ItemPedidoService {
 
     }
 
-    public List<ItemPedido> listar(){
+    public List<ItemPedidoDto> listar(){
 
-        List<ItemPedido> itemPedidoLista =
-                itemPedidoRepository
-                        .findAll();
+        List<ItemPedidoDto> itemPedidoDtoLista = new ArrayList<>();
 
-        return itemPedidoLista;
+        itemPedidoRepository.findAll().stream().forEach(
+                itemPedido ->
+                        itemPedidoDtoLista
+                        .add(new ItemPedidoDto(itemPedido))
+        );
+
+        return itemPedidoDtoLista;
     }
 
-    public ItemPedido obter(Integer id){
+    public ItemPedidoDto obter(Integer id){
 
         ItemPedido itemPedidoObtido =
                 itemPedidoRepository
                 .findById(id)
                 .get();
 
-        return itemPedidoObtido;
-
+        return new ItemPedidoDto(itemPedidoObtido);
     }
 }

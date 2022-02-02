@@ -28,10 +28,19 @@ public class ClienteService {
 
     }
 
-    public Cliente atualizar( ClienteDto clienteDto, Integer id){
+    public Cliente atualizar(ClienteDto clienteDto, Integer id){
 
-        return clienteRepository.findById(id)
-                .map(cliente -> clienteRepository.save(cliente))
+        return clienteRepository
+                .findById(id)
+                .map(cliente -> {
+                    cliente.setNome(clienteDto.getNome());
+                    cliente.setEndereco(clienteDto.getEndereco());
+                    cliente.setEmail(clienteDto.getEmail());
+                    cliente.setTel(clienteDto.getTel());
+                    cliente.setCpf(cliente.getCpf());
+                    cliente.setSenha(cliente.getSenha());
+                    return clienteRepository.save(cliente);
+                })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
     }
@@ -64,9 +73,7 @@ public class ClienteService {
                         .findById(id)
                         .get();
 
-        ClienteDto cliente = new ClienteDto(clienteObtido);
-
-        return cliente;
+        return new ClienteDto(clienteObtido);
 
     }
 }

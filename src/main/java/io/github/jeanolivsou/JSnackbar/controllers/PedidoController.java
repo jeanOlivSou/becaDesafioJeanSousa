@@ -1,6 +1,7 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
 
+import io.github.jeanolivsou.JSnackbar.dtos.PedidoDto;
 import io.github.jeanolivsou.JSnackbar.entities.Pedido;
 import io.github.jeanolivsou.JSnackbar.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +19,21 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<Pedido>
+    public ResponseEntity<PedidoDto>
     criar(@RequestBody Pedido pedido){
 
-        Pedido pedidoCriado =
-                pedidoService
-                        .criar(pedido);
-
-        return ResponseEntity.created(null).body(pedidoCriado);
+        return ResponseEntity
+                .created(null)
+                .body(pedidoService.criar(pedido));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Pedido>
-    atualizar(@RequestBody Pedido pedido, @PathVariable Integer id) {
+    atualizar(@RequestBody PedidoDto pedidoDto, @PathVariable Integer id) {
 
         Pedido pedidoAtualizado =
                 pedidoService
-                        .atualizar(pedido, id);
+                        .atualizar(pedidoDto, id);
 
         return ResponseEntity.ok(pedidoAtualizado);
     }
@@ -44,27 +43,23 @@ public class PedidoController {
 
         pedidoService.deletar(id);
 
-       return ResponseEntity.noContent().build();
+       return ResponseEntity
+               .noContent()
+               .build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Pedido>> listar(){
+    public ResponseEntity<List<PedidoDto>> listar(){
 
-        List<Pedido> pedidoListado =
-                pedidoService
-                        .listar();
-
-        return ResponseEntity.ok(pedidoListado);
+        return ResponseEntity
+                .ok(pedidoService.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> obter(@PathVariable Integer id){
+    public ResponseEntity<PedidoDto> obter(@PathVariable Integer id){
 
-        Pedido pedidoObtido =
-                pedidoService
-                        .obter(id);
-
-        return ResponseEntity.ok(pedidoObtido);
+        return ResponseEntity
+                .ok(pedidoService.obter(id));
 
     }
 

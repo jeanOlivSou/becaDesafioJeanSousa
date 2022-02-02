@@ -1,10 +1,14 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
+import io.github.jeanolivsou.JSnackbar.dtos.LancheDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
 import io.github.jeanolivsou.JSnackbar.repositories.LacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,25 +17,28 @@ public class LancheService {
     @Autowired
     private LacheRepository lacheRepository;
 
-    public Lanche criar(Lanche lanche){
+    public LancheDto criar(Lanche lanche){
 
         Lanche lancheSalvo =
                 lacheRepository
                         .save(lanche);
 
-        return lancheSalvo;
+        return new LancheDto(lancheSalvo);
     }
 
-    public Lanche atualizar( Lanche lanche, Integer id){
-        Lanche lancheAtual = this.obter(id);
+    public Lanche atualizar( LancheDto lancheDto, Integer id){
 
-        lancheAtual.setNome(lancheAtual.getNome());
-        lancheAtual.setDesc(lancheAtual.getDesc());
-        lancheAtual.setPrecoUnit(lancheAtual.getPrecoUnit());
+        return lacheRepository
+                .findById(id)
+                .map(lanche -> {
+                    lanche.setNome(lancheDto.getNome());
+                    lanche.setDesc(lancheDto.getDesc());
+                    lanche.setPrecoUnit(lancheDto.getPrecoUnit());
 
-        lacheRepository.save(lancheAtual);
+                    return lacheRepository.save(lanche);
 
-        return lanche;
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public void deletar( Integer id){
@@ -40,22 +47,26 @@ public class LancheService {
 
     }
 
-    public List<Lanche> listar(){
+    public List<LancheDto> listar(){
 
-        List<Lanche> lancheLista =
-                lacheRepository
-                        .findAll();
+        List<LancheDto> lancheDtoLista = new ArrayList<>();
 
-        return lancheLista;
+        lacheRepository.findAll().stream().forEach(
+                lanche ->
+                        lancheDtoLista
+                                .add(new LancheDto(lanche))
+        );
+
+        return lancheDtoLista;
     }
 
-    public Lanche obter(Integer id) {
+    public LancheDto obter(Integer id) {
 
        Lanche lancheObtido =
                lacheRepository
                        .findById(id)
                        .get();
 
-        return lancheObtido;
+        return new LancheDto(lancheObtido);
     }
 }

@@ -18,42 +18,47 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<ClienteDto>  criar(@RequestBody Cliente cliente) {
+    public ResponseEntity<ClienteDto>
+    criar(@RequestBody Cliente cliente) {
 
-        ClienteDto clienteCriado = clienteService.criar(cliente);
-
-        return ResponseEntity.created(null).body(clienteCriado);
+        return ResponseEntity
+                .created(null)
+                .body(clienteService.criar(cliente));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClienteDto>  atualizar(@RequestBody ClienteDto clienteDto, @PathVariable Integer id) {
+    public ResponseEntity<ClienteDto>
+    atualizar(@RequestBody ClienteDto clienteDto, @PathVariable Integer id) {
 
-        return ResponseEntity.ok(new ClienteDto(clienteService.atualizar(clienteDto,id)));
+        return ResponseEntity.ok(
+                new ClienteDto(clienteService.atualizar(clienteDto,id))
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable Integer id){
+    public ResponseEntity<String>
+    deletar(@PathVariable Integer id){
 
         clienteService.deletar(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
     @GetMapping
     public ResponseEntity<List<ClienteDto>> listar(){
-        List<ClienteDto> clienteLista =
-                clienteService.listar();
 
-        return ResponseEntity.ok(clienteLista);
+        return ResponseEntity
+                .ok(clienteService.listar());
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDto> obter(@PathVariable Integer id) {
 
-        ClienteDto clienteObtido = clienteService.obter(id);
-
-        return ResponseEntity.ok(clienteObtido);
+        return ResponseEntity
+                .ok(clienteService.obter(id));
 
     }
 
