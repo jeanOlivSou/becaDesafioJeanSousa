@@ -1,6 +1,7 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
 
+import io.github.jeanolivsou.JSnackbar.dtos.ClienteDto;
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
 import io.github.jeanolivsou.JSnackbar.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,34 +18,30 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<Cliente>  criar(@RequestBody Cliente cliente) {
+    public ResponseEntity<ClienteDto>  criar(@RequestBody Cliente cliente) {
 
-        Cliente clienteCriado = clienteService.criar(cliente);
+        ClienteDto clienteCriado = clienteService.criar(cliente);
 
         return ResponseEntity.created(null).body(clienteCriado);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Cliente>
-    atualizar(@RequestBody Cliente cliente, @PathVariable Integer id) {
+    public ResponseEntity<ClienteDto>  atualizar(@RequestBody ClienteDto clienteDto, @PathVariable Integer id) {
 
-        Cliente clienteAtualizado =
-                clienteService.atualizar(cliente, id);
-
-        return ResponseEntity
-                .ok(clienteAtualizado);
+        return ResponseEntity.ok(new ClienteDto(clienteService.atualizar(clienteDto,id)));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletar(@PathVariable Integer id){
+
         clienteService.deletar(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listar(){
-        List<Cliente> clienteLista =
+    public ResponseEntity<List<ClienteDto>> listar(){
+        List<ClienteDto> clienteLista =
                 clienteService.listar();
 
         return ResponseEntity.ok(clienteLista);
@@ -52,8 +49,10 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> obter(@PathVariable Integer id) {
-        Cliente clienteObtido = clienteService.obter(id);
+    public ResponseEntity<ClienteDto> obter(@PathVariable Integer id) {
+
+        ClienteDto clienteObtido = clienteService.obter(id);
+
         return ResponseEntity.ok(clienteObtido);
 
     }
