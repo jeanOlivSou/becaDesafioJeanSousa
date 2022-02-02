@@ -1,68 +1,72 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
+import io.github.jeanolivsou.JSnackbar.dtos.LancheDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+import io.github.jeanolivsou.JSnackbar.repositories.LacheRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class LancheService {
 
-    public Lanche criar(Lanche lanche){
+    @Autowired
+    private LacheRepository lacheRepository;
 
-        lanche.setId(2);
+    public LancheDto criar(Lanche lanche){
 
-        System.out.println(lanche);
+        Lanche lancheSalvo =
+                lacheRepository
+                        .save(lanche);
 
-        return lanche;
+        return new LancheDto(lancheSalvo);
     }
 
-    public Lanche atualizar( Lanche lanche, Integer id){
+    public Lanche atualizar( LancheDto lancheDto, Integer id){
 
-        lanche.setId(id);
+        return lacheRepository
+                .findById(id)
+                .map(lanche -> {
+                    lanche.setNome(lancheDto.getNome());
+                    lanche.setDesc(lancheDto.getDesc());
+                    lanche.setPrecoUnit(lancheDto.getPrecoUnit());
 
-        System.out.println(lanche);
+                    return lacheRepository.save(lanche);
 
-        return lanche;
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public void deletar( Integer id){
-        // codigo aqui;
+
+        lacheRepository.deleteById(id);
+
     }
 
-    public List<Lanche> listar(){
-        Lanche l1 = new Lanche(
-                1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
+    public List<LancheDto> listar(){
 
-        Lanche l2 = new Lanche(
-                2,
-                "Mini Pizza",
-                "lorem ipsum",
-                3.50 );
+        List<LancheDto> lancheDtoLista = new ArrayList<>();
 
-        Lanche l3 = new Lanche(
-                3,
-                "Pastel",
-                "Lorem ipsum",
-                2.0);
+        lacheRepository.findAll().stream().forEach(
+                lanche ->
+                        lancheDtoLista
+                                .add(new LancheDto(lanche))
+        );
 
-        List<Lanche> lista = Arrays.asList(l1, l2, l3);
-
-        return lista;
+        return lancheDtoLista;
     }
 
-    public Lanche obter(Integer id) {
-        Lanche l1 = new Lanche(
-                1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
+    public LancheDto obter(Integer id) {
 
-        return l1;
+       Lanche lancheObtido =
+               lacheRepository
+                       .findById(id)
+                       .get();
+
+        return new LancheDto(lancheObtido);
     }
 }

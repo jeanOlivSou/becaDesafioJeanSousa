@@ -1,136 +1,76 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
-import io.github.jeanolivsou.JSnackbar.entities.Cliente;
-import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
-import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+
+import io.github.jeanolivsou.JSnackbar.dtos.PedidoDto;
 import io.github.jeanolivsou.JSnackbar.entities.Pedido;
+import io.github.jeanolivsou.JSnackbar.repositories.PedidoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-
-import java.util.Arrays;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PedidoService {
 
-    public Pedido criar(Pedido pedido){
+    @Autowired
+    PedidoRepository pedidoRepository;
 
-        pedido.setId(2);
+    public PedidoDto criar(Pedido pedido){
 
-        System.out.println(pedido);
+        Pedido pedidoSalvo =
+                pedidoRepository
+                        .save(pedido);
 
-        return pedido;
+        return new PedidoDto(pedidoSalvo);
     }
 
-    public Pedido atualizar(Pedido pedido, Integer id) {
+    public Pedido atualizar(PedidoDto pedidoDto, Integer id) {
 
-        pedido.setId(id);
+        return pedidoRepository
+                .findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(pedidoDto.getStatus());
+                    pedido.setDataPedido(pedidoDto.getDataPedido());
+                    pedido.setCliente(pedidoDto.getCliente());
+                    pedido.setItens(pedidoDto.getItens());
 
-        System.out.println(pedido);
-
-        return pedido;
+                    return pedidoRepository.save(pedido);
+                })
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND));
     }
 
     public void deletar(Integer id){
-        //codigo aqui
+
+        pedidoRepository.deleteById(id);
+
     }
 
-    public List<Pedido> listar(){
+    public List<PedidoDto> listar(){
+        List<PedidoDto> pedidoDtoLista = new ArrayList<>();
 
-        Lanche l1 = new Lanche(
-                1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
+        pedidoRepository.findAll().stream().forEach(
+                pedido ->
+                        pedidoDtoLista
+                                .add(new PedidoDto(pedido))
+        );
 
-        Lanche l2 = new Lanche(
-                2,
-                "Mini Pizza",
-                "lorem ipsum",
-                3.50 );
-
-        Lanche l3 = new Lanche(3,
-                "Pastel",
-                "Lorem ipsum",
-                2.0);
-
-        Cliente cl1 = new Cliente(1,
-                "zeca",
-                25415454,
-                "fgjdigodijgfoij",
-                625151,
-                "dfkjgkdfjg",
-                "djfdsjf" );
-
-        ItemPedido it1 = new ItemPedido(
-                1,
-                2,
-                3.00,
-                l1);
-        ItemPedido it2 = new ItemPedido(
-                2,
-                3,
-                10.50,
-                l2);
-
-
-        List itens = Arrays.asList(it1, it2);
-
-        Pedido p1 = new Pedido(
-                1,
-                "Preparando",
-                new Date(),
-                cl1,
-                itens,
-                3.00);
-
-        Pedido p2 = new Pedido(
-                2,
-                "Preparando",
-                new Date(),
-                cl1,
-                itens,
-                21.00);
-
-        List pedidoLista = Arrays.asList(p1, p2);
-
-        return pedidoLista;
+        return pedidoDtoLista;
     }
 
-    public Pedido obter(Integer id){
-        Lanche l3 = new Lanche(
-                3,
-                "Pastel",
-                "Lorem ipsum",
-                2.0);
+    public PedidoDto obter(Integer id){
 
-        Cliente cl1 = new Cliente(
-                1,
-                "zeca",
-                25415454,
-                "fgjdigodijgfoij",
-                625151,
-                "dfkjgkdfjg",
-                "djfdsjf" );
+        Pedido pedidoObtido =
+                pedidoRepository
+                        .findById(id)
+                        .get();
 
-        ItemPedido it1 = new ItemPedido(
-                1,
-                2,
-                4.0,
-                l3);
 
-        List itemPedidoLista = Arrays.asList(it1);
-
-        Pedido p1 = new Pedido(
-                id,
-                "Preparando",
-                new Date(),
-                cl1,
-                itemPedidoLista,
-                21.00);
-
-        return p1;
+        return new PedidoDto(pedidoObtido);
 
     }
 }

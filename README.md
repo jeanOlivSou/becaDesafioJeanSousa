@@ -36,8 +36,9 @@ como o [Postman](https://www.postman.com/)
  DELETE `/lanche/{id}` | Exclui um lanche do id específico
  DELETE `/itempedido/{id}`  | Exclui um item de pedido do id específico
  DELETE `/pedido/{id}` | Exclui um pedido do id específico
+<br/>
 
-Exemplo de JSON para requisição POST `/pedido`:
+Exemplo de JSON para requisição POST `/pedido` :
 
 ```json 
 {

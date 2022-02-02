@@ -1,9 +1,16 @@
 package io.github.jeanolivsou.JSnackbar.entities;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.util.Objects;
 
-public class Lanche
-{
+@Data
+@Entity
+public class Lanche {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
     private String desc;

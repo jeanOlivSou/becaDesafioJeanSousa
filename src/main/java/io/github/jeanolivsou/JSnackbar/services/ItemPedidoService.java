@@ -1,83 +1,72 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
+import io.github.jeanolivsou.JSnackbar.dtos.ItemPedidoDto;
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
-import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+import io.github.jeanolivsou.JSnackbar.repositories.ItemPedidoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ItemPedidoService {
 
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
-    public ItemPedido criar(ItemPedido itemPedido){
+    public ItemPedidoDto criar(ItemPedido itemPedido){
 
-        itemPedido.setId(3);
-
-        System.out.println(itemPedido);
-
-        return itemPedido;
+        return new ItemPedidoDto(
+                itemPedidoRepository
+                        .save(itemPedido));
     }
 
-    public ItemPedido atualizar(ItemPedido itemPedido, Integer id) {
+    public ItemPedido atualizar(ItemPedidoDto itemPedidoDto, Integer id) {
 
-        itemPedido.setId(id);
+        return itemPedidoRepository
+                .findById(id)
+                .map(itemPedido -> {
+                    itemPedido.setQtd(itemPedidoDto.getQtd());
+                    itemPedido.setPreco(itemPedidoDto.getPreco());
+                    itemPedido.setLanche(itemPedidoDto.getLanche());
 
-        System.out.println(itemPedido);
-
-        return itemPedido;
+                    return itemPedidoRepository.save(itemPedido);
+                })
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND));
     }
 
     public void deletar(Integer id){
-        // codigo aqui
+
+        itemPedidoRepository.deleteById(id);
+
     }
 
-    public List<ItemPedido> listar(){
+    public List<ItemPedidoDto> listar(){
 
-        Lanche l1 = new Lanche(
-                1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
+        List<ItemPedidoDto> itemPedidoDtoLista = new ArrayList<>();
 
-        Lanche l2 = new Lanche(
-                2,
-                "Mini Pizza",
-                "lorem ipsum",
-                3.50 );
+        itemPedidoRepository.findAll().stream().forEach(
+                itemPedido ->
+                        itemPedidoDtoLista
+                        .add(new ItemPedidoDto(itemPedido))
+        );
 
-
-        ItemPedido it1 = new ItemPedido(
-                1,
-                2,
-                3.00,
-                l1);
-        ItemPedido it2 = new ItemPedido(
-                2,
-                3,
-                10.50,
-                l2);
-
-        List itens = Arrays.asList(it1, it2);
-
-        return itens;
+        return itemPedidoDtoLista;
     }
 
-    public ItemPedido obter(Integer id){
-        Lanche l1 = new Lanche(
-                1,
-                "Coxinha",
-                "sdkjlksjflkjsdjshf",
-                1.50);
-        ItemPedido it1 = new ItemPedido(
-                1,
-                2,
-                3.00,
-                l1);
+    public ItemPedidoDto obter(Integer id){
 
-        return it1;
+        ItemPedido itemPedidoObtido =
+                itemPedidoRepository
+                .findById(id)
+                .get();
 
+        return new ItemPedidoDto(itemPedidoObtido);
     }
 }

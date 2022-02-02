@@ -1,5 +1,6 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
+import io.github.jeanolivsou.JSnackbar.dtos.LancheDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
 import io.github.jeanolivsou.JSnackbar.services.LancheService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +17,21 @@ public class LancheController {
     private LancheService lancheService;
 
     @PostMapping
-    public ResponseEntity<Lanche>
+    public ResponseEntity<LancheDto>
     criar(@RequestBody Lanche lanche){
 
-        Lanche lancheCriado =
-                lancheService.criar(lanche);
-
-        return ResponseEntity.created(null).body(lancheCriado);
+        return ResponseEntity
+                .created(null)
+                .body(lancheService.criar(lanche));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Lanche>
-    atualizar(@RequestBody Lanche lanche, @PathVariable Integer id){
-        Lanche lancheCriado =
-                lancheService.atualizar(lanche, id);
-        return ResponseEntity.ok(lancheCriado);
+    public ResponseEntity<LancheDto>
+    atualizar(@RequestBody LancheDto lancheDto, @PathVariable Integer id){
+
+        return ResponseEntity.ok(
+                new LancheDto(lancheService.atualizar(lancheDto, id))
+        );
     }
 
     @DeleteMapping("/{id}")
@@ -39,25 +40,24 @@ public class LancheController {
 
         lancheService.deletar(id);
 
-       return ResponseEntity.noContent().build();
+       return ResponseEntity
+               .noContent()
+               .build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Lanche>> listar(){
+    public ResponseEntity<List<LancheDto>> listar(){
 
-        List<Lanche> lancheCriado =
-                lancheService.listar();
-
-        return ResponseEntity.ok(lancheCriado);
+        return ResponseEntity
+                .ok(lancheService.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Lanche>
+    public ResponseEntity<LancheDto>
     obter(@PathVariable Integer id) {
 
-        Lanche lancheObtido = lancheService.obter(id);
-
-        return ResponseEntity.ok(lancheObtido);
+        return ResponseEntity
+                .ok(lancheService.obter(id));
     }
 
 
