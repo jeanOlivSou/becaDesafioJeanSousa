@@ -1,22 +1,31 @@
 package io.github.jeanolivsou.JSnackbar.dtos;
 
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClienteDto {
-    private String nome;
-    private String endereco;
-    private Integer tel;
-    private String email;
 
-    public ClienteDto(String nome, String endereco, Integer tel, String email) {
-        this.nome = nome;
-        this.endereco = endereco;
-        this.tel = tel;
-        this.email = email;
-    }
+    @NotBlank(message = "{nome.not.blank}")
+    private String nome;
+
+    @NotBlank(message = "{endereco.not.blank}")
+    private String endereco;
+
+    @NotBlank(message = "{tel.not.blank}")
+    private String tel;
+
+    @NotBlank(message="{email.not.blank}")
+    @Email(message = "{email.not.valid}")
+    private String email;
 
     public ClienteDto(Cliente cliente) {
         nome = cliente.getNome();
@@ -25,38 +34,4 @@ public class ClienteDto {
         email = cliente.getEmail();
     }
 
-    public ClienteDto(){
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public Integer getTel() {
-        return tel;
-    }
-
-    public void setTel(Integer tel) {
-        this.tel = tel;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
