@@ -22,26 +22,26 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Preencha este campo!")
+    @NotBlank(message = "{campo.not.blank}")
     @Pattern(regexp = "^[A-Z]+(.)*")
     private String nome;
 
     @CPF
-    @NotBlank(message = "Preencha este campo!")
+    @NotBlank(message = "{campo.not.blank}")
     private String cpf;
 
-    @NotBlank(message = "Preencha este campo!")
+    @NotBlank(message = "{campo.not.blank}")
     private String endereco;
 
     @Size(max = 11)
-    @NotBlank(message = "tel.not.blank")
+    @NotBlank(message = "{campo.not.blank}")
     private String tel;
 
-    @Size(min = 8, max = 20, message = "Digite no mínimo 8 caracteres e no máximo 20!")
+    @Size(min = 8, max = 20, message = "{senha.not.valid}")
     private String senha;
 
-    @Email(message = "email.not.valid")
-    @NotBlank(message = "email.not.blank")
+    @Email(message = "{email.not.valid}")
+    @NotBlank(message = "{email.not.blank}")
     private String email;
 
 

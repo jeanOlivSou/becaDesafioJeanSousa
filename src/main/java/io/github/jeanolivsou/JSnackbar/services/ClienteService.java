@@ -3,6 +3,7 @@ package io.github.jeanolivsou.JSnackbar.services;
 
 import io.github.jeanolivsou.JSnackbar.dtos.ClienteDto;
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
+import io.github.jeanolivsou.JSnackbar.mappers.ClienteMapper;
 import io.github.jeanolivsou.JSnackbar.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,31 +19,26 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    ClienteMapper clienteMapper;
+
     public ClienteDto criar(Cliente cliente) {
 
         Cliente clienteSalvo =
                 clienteRepository
                         .save(cliente);
 
-        return new ClienteDto(clienteSalvo);
+        return clienteMapper.toDto(clienteSalvo);
 
     }
 
     public Cliente atualizar(ClienteDto clienteDto, Integer id){
 
-        return clienteRepository
-                .findById(id)
-                .map(cliente -> {
-                    cliente.setNome(clienteDto.getNome());
-                    cliente.setEndereco(clienteDto.getEndereco());
-                    cliente.setEmail(clienteDto.getEmail());
-                    cliente.setTel(clienteDto.getTel());
-                    cliente.setCpf(cliente.getCpf());
-                    cliente.setSenha(cliente.getSenha());
-                    return clienteRepository.save(cliente);
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Cliente clienteObtido = clienteRepository.findById(id).get();
 
+        clienteDto = clienteMapper.toDto(clienteObtido);
+
+        return clienteRepository.save(clienteMapper.toEntity(clienteDto));
     }
 
     public void deletar(Integer id){
@@ -58,7 +54,7 @@ public class ClienteService {
         clienteRepository.findAll().stream().forEach(
                 cliente ->
                         clienteDtoLista
-                                .add(new ClienteDto(cliente))
+                                .add(clienteMapper.toDto(cliente))
         );
 
 
@@ -73,7 +69,7 @@ public class ClienteService {
                         .findById(id)
                         .get();
 
-        return new ClienteDto(clienteObtido);
+        return clienteMapper.toDto(clienteObtido);
 
     }
 }
