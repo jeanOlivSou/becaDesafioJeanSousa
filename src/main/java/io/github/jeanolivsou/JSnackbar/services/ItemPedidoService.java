@@ -1,6 +1,7 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
-import io.github.jeanolivsou.JSnackbar.dtos.ItemPedidoDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.responses.ItemPedidoResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
 import io.github.jeanolivsou.JSnackbar.repositories.ItemPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,12 @@ public class ItemPedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
-    public ItemPedidoDto criar(ItemPedido itemPedido){
+    public ItemPedidoResponseDto criar(ItemPedido itemPedido){
 
-        return new ItemPedidoDto(
-                itemPedidoRepository
-                        .save(itemPedido));
+        return new ItemPedidoResponseDto(itemPedidoRepository.save(itemPedido));
     }
 
-    public ItemPedido atualizar(ItemPedidoDto itemPedidoDto, Integer id) {
+    public ItemPedido atualizar(ItemPedidoResponseDto itemPedidoDto, Integer id) {
 
         return itemPedidoRepository
                 .findById(id)
@@ -47,26 +46,26 @@ public class ItemPedidoService {
 
     }
 
-    public List<ItemPedidoDto> listar(){
+    public List<ItemPedidoResponseDto> listar(){
 
-        List<ItemPedidoDto> itemPedidoDtoLista = new ArrayList<>();
+        List<ItemPedidoResponseDto> itemPedidoDtoLista = new ArrayList<>();
 
         itemPedidoRepository.findAll().stream().forEach(
                 itemPedido ->
                         itemPedidoDtoLista
-                        .add(new ItemPedidoDto(itemPedido))
+                        .add(new ItemPedidoResponseDto(itemPedido))
         );
 
         return itemPedidoDtoLista;
     }
 
-    public ItemPedidoDto obter(Integer id){
+    public ItemPedidoResponseDto obter(Integer id){
 
         ItemPedido itemPedidoObtido =
                 itemPedidoRepository
                 .findById(id)
                 .get();
 
-        return new ItemPedidoDto(itemPedidoObtido);
+        return new ItemPedidoResponseDto(itemPedidoObtido);
     }
 }

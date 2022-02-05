@@ -1,6 +1,7 @@
 package io.github.jeanolivsou.JSnackbar.mappers;
 
-import io.github.jeanolivsou.JSnackbar.dtos.ClienteDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.responses.ClienteResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -11,9 +12,10 @@ public interface ClienteMapper {
 
     ClienteMapper INSTANCE = Mappers.getMapper(ClienteMapper.class);
 
-
-    Cliente toEntity(ClienteDto clienteDto);
+    Cliente toEntity(ClienteResponseDto clienteResponseDto);
 
     @InheritInverseConfiguration
-    ClienteDto toDto(Cliente cliente);
+    ClienteResponseDto toDto(Cliente cliente);
+
+
 }

@@ -1,7 +1,8 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
 
-import io.github.jeanolivsou.JSnackbar.dtos.PedidoDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.responses.PedidoResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Pedido;
 import io.github.jeanolivsou.JSnackbar.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +19,16 @@ public class PedidoService {
     @Autowired
     PedidoRepository pedidoRepository;
 
-    public PedidoDto criar(Pedido pedido){
+    public PedidoResponseDto criar(Pedido pedido){
 
         Pedido pedidoSalvo =
                 pedidoRepository
                         .save(pedido);
 
-        return new PedidoDto(pedidoSalvo);
+        return new PedidoResponseDto(pedidoSalvo);
     }
 
-    public Pedido atualizar(PedidoDto pedidoDto, Integer id) {
+    public Pedido atualizar(PedidoResponseDto pedidoDto, Integer id) {
 
         return pedidoRepository
                 .findById(id)
@@ -50,19 +51,19 @@ public class PedidoService {
 
     }
 
-    public List<PedidoDto> listar(){
-        List<PedidoDto> pedidoDtoLista = new ArrayList<>();
+    public List<PedidoResponseDto> listar(){
+        List<PedidoResponseDto> pedidoDtoLista = new ArrayList<>();
 
         pedidoRepository.findAll().stream().forEach(
                 pedido ->
                         pedidoDtoLista
-                                .add(new PedidoDto(pedido))
+                                .add(new PedidoResponseDto(pedido))
         );
 
         return pedidoDtoLista;
     }
 
-    public PedidoDto obter(Integer id){
+    public PedidoResponseDto obter(Integer id){
 
         Pedido pedidoObtido =
                 pedidoRepository
@@ -70,7 +71,7 @@ public class PedidoService {
                         .get();
 
 
-        return new PedidoDto(pedidoObtido);
+        return new PedidoResponseDto(pedidoObtido);
 
     }
 }

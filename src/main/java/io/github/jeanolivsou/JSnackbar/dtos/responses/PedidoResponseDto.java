@@ -1,4 +1,4 @@
-package io.github.jeanolivsou.JSnackbar.dtos;
+package io.github.jeanolivsou.JSnackbar.dtos.responses;
 
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
@@ -14,14 +14,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PedidoDto {
+public class PedidoResponseDto {
     private String Status;
     private Date dataPedido;
     private Cliente cliente;
     private List<ItemPedido> itens;
     private Double total;
 
-    public PedidoDto(Pedido pedido) {
+    public PedidoResponseDto(Pedido pedido) {
         this.Status = pedido.getStatus();
         this.dataPedido = pedido.getDataPedido();
         this.cliente = pedido.getCliente();

@@ -1,6 +1,6 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
-import io.github.jeanolivsou.JSnackbar.dtos.LancheDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.LancheResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
 import io.github.jeanolivsou.JSnackbar.services.LancheService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class LancheController {
     private LancheService lancheService;
 
     @PostMapping
-    public ResponseEntity<LancheDto>
+    public ResponseEntity<LancheResponseDto>
     criar(@RequestBody Lanche lanche){
 
         return ResponseEntity
@@ -26,11 +26,11 @@ public class LancheController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<LancheDto>
-    atualizar(@RequestBody LancheDto lancheDto, @PathVariable Integer id){
+    public ResponseEntity<LancheResponseDto>
+    atualizar(@RequestBody LancheResponseDto lancheResponseDto, @PathVariable Integer id){
 
         return ResponseEntity.ok(
-                new LancheDto(lancheService.atualizar(lancheDto, id))
+                new LancheResponseDto(lancheService.atualizar(lancheResponseDto, id))
         );
     }
 
@@ -46,14 +46,14 @@ public class LancheController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LancheDto>> listar(){
+    public ResponseEntity<List<LancheResponseDto>> listar(){
 
         return ResponseEntity
                 .ok(lancheService.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LancheDto>
+    public ResponseEntity<LancheResponseDto>
     obter(@PathVariable Integer id) {
 
         return ResponseEntity

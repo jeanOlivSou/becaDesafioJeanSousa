@@ -1,6 +1,6 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
-import io.github.jeanolivsou.JSnackbar.dtos.LancheDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.LancheResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
 import io.github.jeanolivsou.JSnackbar.repositories.LacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,29 +11,30 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class LancheService {
 
     @Autowired
     private LacheRepository lacheRepository;
 
-    public LancheDto criar(Lanche lanche){
+    public LancheResponseDto criar(Lanche lanche){
 
         Lanche lancheSalvo =
                 lacheRepository
                         .save(lanche);
 
-        return new LancheDto(lancheSalvo);
+        return new LancheResponseDto(lancheSalvo);
     }
 
-    public Lanche atualizar( LancheDto lancheDto, Integer id){
+    public Lanche atualizar( LancheResponseDto lancheResponseDto, Integer id){
 
         return lacheRepository
                 .findById(id)
                 .map(lanche -> {
-                    lanche.setNome(lancheDto.getNome());
-                    lanche.setDesc(lancheDto.getDesc());
-                    lanche.setPrecoUnit(lancheDto.getPrecoUnit());
+                    lanche.setNome(lancheResponseDto.getNome());
+                    lanche.setDesc(lancheResponseDto.getDesc());
+                    lanche.setPrecoUnit(lancheResponseDto.getPrecoUnit());
 
                     return lacheRepository.save(lanche);
 
@@ -47,26 +48,26 @@ public class LancheService {
 
     }
 
-    public List<LancheDto> listar(){
+    public List<LancheResponseDto> listar(){
 
-        List<LancheDto> lancheDtoLista = new ArrayList<>();
+        List<LancheResponseDto> lancheDtoLista = new ArrayList<>();
 
         lacheRepository.findAll().stream().forEach(
                 lanche ->
                         lancheDtoLista
-                                .add(new LancheDto(lanche))
+                                .add(new LancheResponseDto(lanche))
         );
 
         return lancheDtoLista;
     }
 
-    public LancheDto obter(Integer id) {
+    public LancheResponseDto obter(Integer id) {
 
        Lanche lancheObtido =
                lacheRepository
                        .findById(id)
                        .get();
 
-        return new LancheDto(lancheObtido);
+        return new LancheResponseDto(lancheObtido);
     }
 }

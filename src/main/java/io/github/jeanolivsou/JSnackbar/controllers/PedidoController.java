@@ -1,15 +1,16 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
 
-import io.github.jeanolivsou.JSnackbar.dtos.PedidoDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.responses.PedidoResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Pedido;
 import io.github.jeanolivsou.JSnackbar.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/pedido")
@@ -19,7 +20,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<PedidoDto>
+    public ResponseEntity<PedidoResponseDto>
     criar(@RequestBody Pedido pedido){
 
         return ResponseEntity
@@ -29,11 +30,11 @@ public class PedidoController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Pedido>
-    atualizar(@RequestBody PedidoDto pedidoDto, @PathVariable Integer id) {
+    atualizar(@RequestBody PedidoResponseDto pedidoResponseDto, @PathVariable Integer id) {
 
         Pedido pedidoAtualizado =
                 pedidoService
-                        .atualizar(pedidoDto, id);
+                        .atualizar(pedidoResponseDto, id);
 
         return ResponseEntity.ok(pedidoAtualizado);
     }
@@ -49,14 +50,14 @@ public class PedidoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PedidoDto>> listar(){
+    public ResponseEntity<List<PedidoResponseDto>> listar(){
 
         return ResponseEntity
                 .ok(pedidoService.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PedidoDto> obter(@PathVariable Integer id){
+    public ResponseEntity<PedidoResponseDto> obter(@PathVariable Integer id){
 
         return ResponseEntity
                 .ok(pedidoService.obter(id));

@@ -1,7 +1,9 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
 
-import io.github.jeanolivsou.JSnackbar.dtos.ClienteDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.requests.ClienteRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.ClienteResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
 import io.github.jeanolivsou.JSnackbar.mappers.ClienteMapper;
 import io.github.jeanolivsou.JSnackbar.services.ClienteService;
@@ -24,8 +26,8 @@ public class ClienteController {
     private ClienteMapper clienteMapper;
 
     @PostMapping
-    public ResponseEntity<ClienteDto>
-    criar(@RequestBody @Valid Cliente cliente) {
+    public ResponseEntity<ClienteResponseDto>
+    criar(@RequestBody @Valid ClienteRequestDto cliente) {
 
         return ResponseEntity
                 .created(null)
@@ -33,11 +35,11 @@ public class ClienteController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClienteDto>
-    atualizar(@RequestBody @Valid ClienteDto clienteDto, @PathVariable Integer id) {
+    public ResponseEntity<ClienteResponseDto>
+    atualizar(@RequestBody @Valid ClienteResponseDto clienteResponseDto, @PathVariable Integer id) {
         return ResponseEntity.ok(
                 clienteMapper
-                        .toDto(clienteService.atualizar(clienteDto, id))
+                        .toDto(clienteService.atualizar(clienteResponseDto, id))
         );
     }
 
@@ -53,7 +55,7 @@ public class ClienteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClienteDto>> listar(){
+    public ResponseEntity<List<ClienteResponseDto>> listar(){
 
         return ResponseEntity
                 .ok(clienteService.listar());
@@ -61,7 +63,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteDto> obter(@PathVariable Integer id) {
+    public ResponseEntity<ClienteResponseDto> obter(@PathVariable Integer id) {
 
         return ResponseEntity
                 .ok(clienteService.obter(id));
