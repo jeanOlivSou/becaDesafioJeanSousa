@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class PedidoRequestDto {
     private Integer id;
-    private String Status;
+    private String status;
     private Date dataPedido;
     private Cliente cliente;
     private List<ItemPedidoRequestDto> itens;

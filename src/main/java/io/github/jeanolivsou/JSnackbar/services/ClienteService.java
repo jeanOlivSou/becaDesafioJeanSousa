@@ -7,8 +7,9 @@ import io.github.jeanolivsou.JSnackbar.dtos.responses.ClienteResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
 import io.github.jeanolivsou.JSnackbar.mappers.ClienteRequestToClienteMapper;
 import io.github.jeanolivsou.JSnackbar.mappers.ClienteToClienteResponseMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.UpdateClienteMapper;
 import io.github.jeanolivsou.JSnackbar.repositories.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
@@ -16,16 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
 
-    @Autowired
-    ClienteRequestToClienteMapper toClienteMapper;
-
-    @Autowired
-    ClienteToClienteResponseMapper toClienteResponseMapper;
+    private final ClienteRepository clienteRepository;
+    private final ClienteRequestToClienteMapper toClienteMapper;
+    private final ClienteToClienteResponseMapper toClienteResponseMapper;
+    private final UpdateClienteMapper updateClienteMapper;
 
     public ClienteResponseDto criar(ClienteRequestDto clienteRequestDto) {
 
@@ -41,14 +40,13 @@ public class ClienteService {
 
     public ClienteResponseDto atualizar(ClienteRequestDto clienteRequestDto, Integer id){
 
-        Cliente clienteObtido = clienteRepository
-                .findById(id)
-                .get();
+        Cliente cliente = clienteRepository.findById(id).get();
 
-        clienteResponseDto = clienteMapper.toDto(clienteObtido);
+        updateClienteMapper.update(clienteRequestDto, cliente);
 
-        return clienteRepository
-                .save(clienteMapper.toEntity(clienteResponseDto));
+        clienteRepository.save(cliente);
+
+        return toClienteResponseMapper.toResponse(cliente);
     }
 
     public void deletar(Integer id){
@@ -64,7 +62,7 @@ public class ClienteService {
         clienteRepository.findAll().stream().forEach(
                 cliente ->
                         clienteDtoLista
-                                .add(clienteMapper.toDto(cliente))
+                                .add(toClienteResponseMapper.toResponse(cliente))
         );
 
 
@@ -79,7 +77,7 @@ public class ClienteService {
                         .findById(id)
                         .get();
 
-        return clienteMapper.toDto(clienteObtido);
+        return toClienteResponseMapper.toResponse(clienteObtido);
 
     }
 }

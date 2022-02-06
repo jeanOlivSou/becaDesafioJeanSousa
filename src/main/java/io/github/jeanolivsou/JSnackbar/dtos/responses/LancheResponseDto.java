@@ -8,11 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LancheResponseDto {
-    private Integer id;
     private String nome;
     private String desc;
     private Double precoUnit;
-
-
-
 }

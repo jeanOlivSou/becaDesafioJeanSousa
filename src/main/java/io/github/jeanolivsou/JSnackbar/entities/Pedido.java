@@ -18,7 +18,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String Status;
+    private String status;
     private Date dataPedido;
 
     @OneToOne

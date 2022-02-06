@@ -2,6 +2,7 @@ package io.github.jeanolivsou.JSnackbar.controllers;
 
 
 
+import io.github.jeanolivsou.JSnackbar.dtos.requests.PedidoRequestDto;
 import io.github.jeanolivsou.JSnackbar.dtos.responses.PedidoResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Pedido;
 import io.github.jeanolivsou.JSnackbar.services.PedidoService;
@@ -21,26 +22,24 @@ public class PedidoController {
 
     @PostMapping
     public ResponseEntity<PedidoResponseDto>
-    criar(@RequestBody Pedido pedido){
+    criar(@RequestBody PedidoRequestDto pedidoRequestDto){
 
         return ResponseEntity
                 .created(null)
-                .body(pedidoService.criar(pedido));
+                .body(pedidoService.criar(pedidoRequestDto));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Pedido>
-    atualizar(@RequestBody PedidoResponseDto pedidoResponseDto, @PathVariable Integer id) {
+    public ResponseEntity<PedidoResponseDto>
+    atualizar(@RequestBody PedidoRequestDto pedidoRequestDto, @PathVariable Integer id) {
 
-        Pedido pedidoAtualizado =
-                pedidoService
-                        .atualizar(pedidoResponseDto, id);
-
-        return ResponseEntity.ok(pedidoAtualizado);
+        return ResponseEntity.ok(
+                pedidoService.atualizar(pedidoRequestDto, id)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Pedido> deletar(@PathVariable Integer id){
+    public ResponseEntity<PedidoResponseDto> deletar(@PathVariable Integer id){
 
         pedidoService.deletar(id);
 

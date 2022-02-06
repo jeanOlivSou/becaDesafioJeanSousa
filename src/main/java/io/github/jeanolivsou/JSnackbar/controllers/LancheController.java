@@ -1,5 +1,6 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
+import io.github.jeanolivsou.JSnackbar.dtos.requests.LancheRequestDto;
 import io.github.jeanolivsou.JSnackbar.dtos.responses.LancheResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
 import io.github.jeanolivsou.JSnackbar.services.LancheService;
@@ -18,20 +19,19 @@ public class LancheController {
 
     @PostMapping
     public ResponseEntity<LancheResponseDto>
-    criar(@RequestBody Lanche lanche){
+    criar(@RequestBody LancheRequestDto lancheRequestDto){
 
         return ResponseEntity
                 .created(null)
-                .body(lancheService.criar(lanche));
+                .body(lancheService.criar(lancheRequestDto));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<LancheResponseDto>
-    atualizar(@RequestBody LancheResponseDto lancheResponseDto, @PathVariable Integer id){
+    atualizar(@RequestBody LancheRequestDto lancheRequestDto, @PathVariable Integer id){
 
-        return ResponseEntity.ok(
-                new LancheResponseDto(lancheService.atualizar(lancheResponseDto, id))
-        );
+        return ResponseEntity
+                .ok(lancheService.atualizar(lancheRequestDto, id));
     }
 
     @DeleteMapping("/{id}")

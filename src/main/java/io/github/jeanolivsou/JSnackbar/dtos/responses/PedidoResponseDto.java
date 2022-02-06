@@ -2,7 +2,6 @@ package io.github.jeanolivsou.JSnackbar.dtos.responses;
 
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
-import io.github.jeanolivsou.JSnackbar.entities.Pedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,18 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PedidoResponseDto {
-    private String Status;
+    private String status;
     private Date dataPedido;
     private Cliente cliente;
     private List<ItemPedido> itens;
     private Double total;
-
-    public PedidoResponseDto(Pedido pedido) {
-        this.Status = pedido.getStatus();
-        this.dataPedido = pedido.getDataPedido();
-        this.cliente = pedido.getCliente();
-        this.itens = pedido.getItens();
-        this.total = pedido.getTotal();
-    }
 
 }
