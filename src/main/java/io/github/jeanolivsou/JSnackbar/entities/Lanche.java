@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @Data
 @NoArgsConstructor
@@ -23,6 +24,7 @@ public class Lanche {
     @NotBlank(message = "{campo.not.blank}")
     private String desc;
 
+    @Positive(message = "{preco.not.valid}")
     private Double precoUnit;
 
 }

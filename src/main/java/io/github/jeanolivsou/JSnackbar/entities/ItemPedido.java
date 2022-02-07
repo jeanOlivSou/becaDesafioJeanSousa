@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 
 
 @Data
@@ -21,6 +22,7 @@ public class ItemPedido {
     @Min(value = 1)
     private Integer qtd;
 
+    @Positive(message = "{preco.not.valid}")
     private Double preco;
 
     @ManyToOne
