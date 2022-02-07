@@ -4,12 +4,12 @@ package io.github.jeanolivsou.JSnackbar.controllers;
 
 import io.github.jeanolivsou.JSnackbar.dtos.requests.PedidoRequestDto;
 import io.github.jeanolivsou.JSnackbar.dtos.responses.PedidoResponseDto;
-import io.github.jeanolivsou.JSnackbar.entities.Pedido;
 import io.github.jeanolivsou.JSnackbar.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -22,7 +22,7 @@ public class PedidoController {
 
     @PostMapping
     public ResponseEntity<PedidoResponseDto>
-    criar(@RequestBody PedidoRequestDto pedidoRequestDto){
+    criar(@RequestBody @Valid PedidoRequestDto pedidoRequestDto){
 
         return ResponseEntity
                 .created(null)
@@ -31,7 +31,7 @@ public class PedidoController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<PedidoResponseDto>
-    atualizar(@RequestBody PedidoRequestDto pedidoRequestDto, @PathVariable Integer id) {
+    atualizar(@RequestBody @Valid PedidoRequestDto pedidoRequestDto, @PathVariable Integer id) {
 
         return ResponseEntity.ok(
                 pedidoService.atualizar(pedidoRequestDto, id)

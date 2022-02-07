@@ -28,9 +28,13 @@ public class ClienteService {
 
     public ClienteResponseDto criar(ClienteRequestDto clienteRequestDto) {
 
-        Cliente cliente = toClienteMapper.toEntity(clienteRequestDto);
+        Cliente cliente =
+                toClienteMapper
+                        .toEntity(clienteRequestDto);
 
-        ClienteResponseDto clienteResponse = toClienteResponseMapper.toResponse(cliente);
+        ClienteResponseDto clienteResponse =
+                toClienteResponseMapper
+                        .toResponse(cliente);
 
         clienteRepository.save(cliente);
 
@@ -40,7 +44,10 @@ public class ClienteService {
 
     public ClienteResponseDto atualizar(ClienteRequestDto clienteRequestDto, Integer id){
 
-        Cliente cliente = clienteRepository.findById(id).get();
+        Cliente cliente =
+                clienteRepository
+                        .findById(id)
+                        .get();
 
         updateClienteMapper.update(clienteRequestDto, cliente);
 

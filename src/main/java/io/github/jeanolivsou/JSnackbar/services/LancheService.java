@@ -27,9 +27,12 @@ public class LancheService {
 
     public LancheResponseDto criar(LancheRequestDto lancheRequestDto){
 
-        Lanche lanche = toLancheMapper.toEntity(lancheRequestDto);
+        Lanche lanche = toLancheMapper
+                .toEntity(lancheRequestDto);
 
-        LancheResponseDto lancheResponse = toLancheResponseMapper.toResponse(lanche);
+        LancheResponseDto lancheResponse =
+                toLancheResponseMapper
+                        .toResponse(lanche);
 
         lancheRepository.save(lanche);
 
@@ -39,7 +42,10 @@ public class LancheService {
 
     public LancheResponseDto atualizar( LancheRequestDto lancheRequestDto, Integer id){
 
-        Lanche lanche = lancheRepository.findById(id).get();
+        Lanche lanche =
+                lancheRepository
+                        .findById(id)
+                        .get();
 
         updateLancheMapper.update(lancheRequestDto, lanche);
 

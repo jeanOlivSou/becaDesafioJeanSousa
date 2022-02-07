@@ -28,9 +28,13 @@ public class PedidoService {
 
     public PedidoResponseDto criar(PedidoRequestDto pedidoRequestDto){
 
-        Pedido pedido = toPedidoMapper.toEntity(pedidoRequestDto);
+        Pedido pedido =
+                toPedidoMapper
+                        .toEntity(pedidoRequestDto);
 
-        PedidoResponseDto pedidoResponse = toPedidoResponseMapper.toResponse(pedido);
+        PedidoResponseDto pedidoResponse =
+                toPedidoResponseMapper
+                        .toResponse(pedido);
 
         pedidoRepository.save(pedido);
 
@@ -39,7 +43,9 @@ public class PedidoService {
 
     public PedidoResponseDto atualizar(PedidoRequestDto pedidoRequestDto, Integer id) {
 
-        Pedido pedido = pedidoRepository.findById(id).get();
+        Pedido pedido = pedidoRepository
+                .findById(id)
+                .get();
 
         updatePedidoMapper.update(pedidoRequestDto, pedido);
 

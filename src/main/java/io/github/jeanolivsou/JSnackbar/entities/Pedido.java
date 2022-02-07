@@ -22,7 +22,7 @@ public class Pedido {
 
     @NotBlank(message = "{campo.not.blank}")
     private String status;
-    
+
     private Date dataPedido;
 
     @OneToOne

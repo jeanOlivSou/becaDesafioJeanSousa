@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class ItemPedidoController {
 
     @PostMapping
     public ResponseEntity<ItemPedidoResponseDto>
-    criar(@RequestBody ItemPedidoRequestDto itemPedidoRequestDto){
+    criar(@RequestBody @Valid ItemPedidoRequestDto itemPedidoRequestDto){
 
         return ResponseEntity
                 .created(null)
@@ -29,7 +30,7 @@ public class ItemPedidoController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ItemPedidoResponseDto>
-    atualizar(@RequestBody ItemPedidoRequestDto itemPedidoRequestDto, @PathVariable Integer id) {
+    atualizar(@RequestBody @Valid ItemPedidoRequestDto itemPedidoRequestDto, @PathVariable Integer id) {
 
         return ResponseEntity.ok(
                 (itemPedidoService.atualizar(itemPedidoRequestDto, id))

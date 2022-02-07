@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class LancheController {
 
     @PostMapping
     public ResponseEntity<LancheResponseDto>
-    criar(@RequestBody LancheRequestDto lancheRequestDto){
+    criar(@RequestBody @Valid LancheRequestDto lancheRequestDto){
 
         return ResponseEntity
                 .created(null)
@@ -28,7 +29,7 @@ public class LancheController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<LancheResponseDto>
-    atualizar(@RequestBody LancheRequestDto lancheRequestDto, @PathVariable Integer id){
+    atualizar(@RequestBody @Valid LancheRequestDto lancheRequestDto, @PathVariable Integer id){
 
         return ResponseEntity
                 .ok(lancheService.atualizar(lancheRequestDto, id));

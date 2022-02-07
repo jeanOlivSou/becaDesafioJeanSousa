@@ -26,7 +26,7 @@ public class Cliente {
     @Pattern(regexp = "^[A-Z]+(.)*")
     private String nome;
 
-    @CPF
+    @CPF(message = "{cpf.not.valid}")
     @NotBlank(message = "{campo.not.blank}")
     private String cpf;
 
