@@ -1,12 +1,15 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
-import io.github.jeanolivsou.JSnackbar.dtos.ItemPedidoDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.requests.ItemPedidoRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.ItemPedidoResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
 import io.github.jeanolivsou.JSnackbar.services.ItemPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,21 +20,20 @@ public class ItemPedidoController {
     private ItemPedidoService itemPedidoService;
 
     @PostMapping
-    public ResponseEntity<ItemPedidoDto>
-    criar(@RequestBody ItemPedido itemPedido){
+    public ResponseEntity<ItemPedidoResponseDto>
+    criar(@RequestBody @Valid ItemPedidoRequestDto itemPedidoRequestDto){
 
         return ResponseEntity
                 .created(null)
-                .body(itemPedidoService.criar(itemPedido));
+                .body(itemPedidoService.criar(itemPedidoRequestDto));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ItemPedidoDto>
-    atualizar(@RequestBody ItemPedidoDto itemPedidoDto, @PathVariable Integer id) {
+    public ResponseEntity<ItemPedidoResponseDto>
+    atualizar(@RequestBody @Valid ItemPedidoRequestDto itemPedidoRequestDto, @PathVariable Integer id) {
 
         return ResponseEntity.ok(
-                new ItemPedidoDto(itemPedidoService
-                        .atualizar(itemPedidoDto, id))
+                (itemPedidoService.atualizar(itemPedidoRequestDto, id))
         );
     }
 
@@ -46,14 +48,13 @@ public class ItemPedidoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ItemPedidoDto>> listar(){
+    public ResponseEntity<List<ItemPedidoResponseDto>> listar(){
 
-        return ResponseEntity
-                .ok(itemPedidoService.listar());
+        return ResponseEntity.ok(itemPedidoService.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemPedidoDto> obter(@PathVariable Integer id){
+    public ResponseEntity<ItemPedidoResponseDto> obter(@PathVariable Integer id){
 
         return ResponseEntity
                 .ok(itemPedidoService.obter(id));

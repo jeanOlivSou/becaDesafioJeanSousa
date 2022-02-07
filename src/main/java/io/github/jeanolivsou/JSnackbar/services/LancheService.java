@@ -1,72 +1,86 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
-import io.github.jeanolivsou.JSnackbar.dtos.LancheDto;
+import io.github.jeanolivsou.JSnackbar.dtos.requests.LancheRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.LancheResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+import io.github.jeanolivsou.JSnackbar.mappers.LancheRequestToLancheMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.LancheToLancheResponseMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.UpdateLancheMapper;
 import io.github.jeanolivsou.JSnackbar.repositories.LacheRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
+@RequiredArgsConstructor
 public class LancheService {
 
-    @Autowired
-    private LacheRepository lacheRepository;
+    private final LacheRepository lancheRepository;
+    private final LancheRequestToLancheMapper toLancheMapper;
+    private final LancheToLancheResponseMapper toLancheResponseMapper;
+    private final UpdateLancheMapper updateLancheMapper;
 
-    public LancheDto criar(Lanche lanche){
+    public LancheResponseDto criar(LancheRequestDto lancheRequestDto){
 
-        Lanche lancheSalvo =
-                lacheRepository
-                        .save(lanche);
+        Lanche lanche = toLancheMapper
+                .toEntity(lancheRequestDto);
 
-        return new LancheDto(lancheSalvo);
+        LancheResponseDto lancheResponse =
+                toLancheResponseMapper
+                        .toResponse(lanche);
+
+        lancheRepository.save(lanche);
+
+
+        return lancheResponse;
     }
 
-    public Lanche atualizar( LancheDto lancheDto, Integer id){
+    public LancheResponseDto atualizar( LancheRequestDto lancheRequestDto, Integer id){
 
-        return lacheRepository
-                .findById(id)
-                .map(lanche -> {
-                    lanche.setNome(lancheDto.getNome());
-                    lanche.setDesc(lancheDto.getDesc());
-                    lanche.setPrecoUnit(lancheDto.getPrecoUnit());
+        Lanche lanche =
+                lancheRepository
+                        .findById(id)
+                        .get();
 
-                    return lacheRepository.save(lanche);
+        updateLancheMapper.update(lancheRequestDto, lanche);
 
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        lancheRepository.save(lanche);
+
+        return toLancheResponseMapper.toResponse(lanche);
     }
 
     public void deletar( Integer id){
 
-        lacheRepository.deleteById(id);
+        lancheRepository.deleteById(id);
 
     }
 
-    public List<LancheDto> listar(){
+    public List<LancheResponseDto> listar(){
 
-        List<LancheDto> lancheDtoLista = new ArrayList<>();
+        List<LancheResponseDto> lancheDtoLista = new ArrayList<>();
 
-        lacheRepository.findAll().stream().forEach(
+        lancheRepository.findAll().stream().forEach(
                 lanche ->
                         lancheDtoLista
-                                .add(new LancheDto(lanche))
+                                .add(toLancheResponseMapper.toResponse(lanche))
         );
 
         return lancheDtoLista;
     }
 
-    public LancheDto obter(Integer id) {
+    public LancheResponseDto obter(Integer id) {
 
        Lanche lancheObtido =
-               lacheRepository
+               lancheRepository
                        .findById(id)
                        .get();
 
-        return new LancheDto(lancheObtido);
+        return toLancheResponseMapper
+                .toResponse(lancheObtido);
     }
 }

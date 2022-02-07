@@ -1,44 +1,58 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
-import io.github.jeanolivsou.JSnackbar.dtos.ItemPedidoDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.requests.ItemPedidoRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.ItemPedidoResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
+import io.github.jeanolivsou.JSnackbar.mappers.ToItemPedidoMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.ToItemPedidoResponseMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.UpdateItemPedidoMapper;
 import io.github.jeanolivsou.JSnackbar.repositories.ItemPedidoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ItemPedidoService {
 
-    @Autowired
-    private ItemPedidoRepository itemPedidoRepository;
+    private final ItemPedidoRepository itemPedidoRepository;
+    private final ToItemPedidoMapper toItemPedidoMapper;
+    private final ToItemPedidoResponseMapper toItemPedidoResponseMapper;
+    private final UpdateItemPedidoMapper updateItemPedidoMapper;
 
-    public ItemPedidoDto criar(ItemPedido itemPedido){
+    public ItemPedidoResponseDto criar(ItemPedidoRequestDto itemPedidoRequestDto){
 
-        return new ItemPedidoDto(
-                itemPedidoRepository
-                        .save(itemPedido));
+        ItemPedido itemPedido =
+                toItemPedidoMapper
+                        .toEntity(itemPedidoRequestDto);
+
+        ItemPedidoResponseDto itemPedidoResponse =
+                toItemPedidoResponseMapper
+                        .toResponse(itemPedido);
+
+        itemPedidoRepository.save(itemPedido);
+
+        return itemPedidoResponse;
     }
 
-    public ItemPedido atualizar(ItemPedidoDto itemPedidoDto, Integer id) {
+    public ItemPedidoResponseDto atualizar(ItemPedidoRequestDto itemPedidoRequestDto, Integer id) {
+        ItemPedido itemPedido = itemPedidoRepository.findById(id).get();
 
-        return itemPedidoRepository
-                .findById(id)
-                .map(itemPedido -> {
-                    itemPedido.setQtd(itemPedidoDto.getQtd());
-                    itemPedido.setPreco(itemPedidoDto.getPreco());
-                    itemPedido.setLanche(itemPedidoDto.getLanche());
+        updateItemPedidoMapper.update(itemPedidoRequestDto, itemPedido);
 
-                    return itemPedidoRepository.save(itemPedido);
-                })
-                .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND));
+        ItemPedidoResponseDto itemPedidoResponse =
+                toItemPedidoResponseMapper
+                        .toResponse(itemPedido);
+
+
+        itemPedidoRepository.save(itemPedido);
+
+        return itemPedidoResponse;
     }
 
     public void deletar(Integer id){
@@ -47,26 +61,26 @@ public class ItemPedidoService {
 
     }
 
-    public List<ItemPedidoDto> listar(){
+    public List<ItemPedidoResponseDto> listar(){
 
-        List<ItemPedidoDto> itemPedidoDtoLista = new ArrayList<>();
+        List<ItemPedidoResponseDto> itemPedidoDtoLista = new ArrayList<>();
 
         itemPedidoRepository.findAll().stream().forEach(
                 itemPedido ->
                         itemPedidoDtoLista
-                        .add(new ItemPedidoDto(itemPedido))
+                        .add(toItemPedidoResponseMapper.toResponse(itemPedido))
         );
 
         return itemPedidoDtoLista;
     }
 
-    public ItemPedidoDto obter(Integer id){
+    public ItemPedidoResponseDto obter(Integer id){
 
         ItemPedido itemPedidoObtido =
                 itemPedidoRepository
                 .findById(id)
                 .get();
 
-        return new ItemPedidoDto(itemPedidoObtido);
+        return toItemPedidoResponseMapper.toResponse(itemPedidoObtido);
     }
 }

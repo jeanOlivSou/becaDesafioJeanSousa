@@ -1,12 +1,14 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
-import io.github.jeanolivsou.JSnackbar.dtos.LancheDto;
+import io.github.jeanolivsou.JSnackbar.dtos.requests.LancheRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.LancheResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
 import io.github.jeanolivsou.JSnackbar.services.LancheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,21 +19,20 @@ public class LancheController {
     private LancheService lancheService;
 
     @PostMapping
-    public ResponseEntity<LancheDto>
-    criar(@RequestBody Lanche lanche){
+    public ResponseEntity<LancheResponseDto>
+    criar(@RequestBody @Valid LancheRequestDto lancheRequestDto){
 
         return ResponseEntity
                 .created(null)
-                .body(lancheService.criar(lanche));
+                .body(lancheService.criar(lancheRequestDto));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<LancheDto>
-    atualizar(@RequestBody LancheDto lancheDto, @PathVariable Integer id){
+    public ResponseEntity<LancheResponseDto>
+    atualizar(@RequestBody @Valid LancheRequestDto lancheRequestDto, @PathVariable Integer id){
 
-        return ResponseEntity.ok(
-                new LancheDto(lancheService.atualizar(lancheDto, id))
-        );
+        return ResponseEntity
+                .ok(lancheService.atualizar(lancheRequestDto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -46,14 +47,14 @@ public class LancheController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LancheDto>> listar(){
+    public ResponseEntity<List<LancheResponseDto>> listar(){
 
         return ResponseEntity
                 .ok(lancheService.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LancheDto>
+    public ResponseEntity<LancheResponseDto>
     obter(@PathVariable Integer id) {
 
         return ResponseEntity

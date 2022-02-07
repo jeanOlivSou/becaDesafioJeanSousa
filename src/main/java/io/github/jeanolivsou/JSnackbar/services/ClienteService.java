@@ -1,48 +1,59 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
 
-import io.github.jeanolivsou.JSnackbar.dtos.ClienteDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.requests.ClienteRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.ClienteResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
+import io.github.jeanolivsou.JSnackbar.mappers.ClienteRequestToClienteMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.ClienteToClienteResponseMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.UpdateClienteMapper;
 import io.github.jeanolivsou.JSnackbar.repositories.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
 
-    public ClienteDto criar(Cliente cliente) {
+    private final ClienteRepository clienteRepository;
+    private final ClienteRequestToClienteMapper toClienteMapper;
+    private final ClienteToClienteResponseMapper toClienteResponseMapper;
+    private final UpdateClienteMapper updateClienteMapper;
 
-        Cliente clienteSalvo =
-                clienteRepository
-                        .save(cliente);
+    public ClienteResponseDto criar(ClienteRequestDto clienteRequestDto) {
 
-        return new ClienteDto(clienteSalvo);
+        Cliente cliente =
+                toClienteMapper
+                        .toEntity(clienteRequestDto);
+
+        ClienteResponseDto clienteResponse =
+                toClienteResponseMapper
+                        .toResponse(cliente);
+
+        clienteRepository.save(cliente);
+
+        return clienteResponse;
 
     }
 
-    public Cliente atualizar(ClienteDto clienteDto, Integer id){
+    public ClienteResponseDto atualizar(ClienteRequestDto clienteRequestDto, Integer id){
 
-        return clienteRepository
-                .findById(id)
-                .map(cliente -> {
-                    cliente.setNome(clienteDto.getNome());
-                    cliente.setEndereco(clienteDto.getEndereco());
-                    cliente.setEmail(clienteDto.getEmail());
-                    cliente.setTel(clienteDto.getTel());
-                    cliente.setCpf(cliente.getCpf());
-                    cliente.setSenha(cliente.getSenha());
-                    return clienteRepository.save(cliente);
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Cliente cliente =
+                clienteRepository
+                        .findById(id)
+                        .get();
 
+        updateClienteMapper.update(clienteRequestDto, cliente);
+
+        clienteRepository.save(cliente);
+
+        return toClienteResponseMapper.toResponse(cliente);
     }
 
     public void deletar(Integer id){
@@ -51,14 +62,14 @@ public class ClienteService {
 
     }
 
-    public List<ClienteDto> listar(){
+    public List<ClienteResponseDto> listar(){
 
-        List<ClienteDto> clienteDtoLista = new ArrayList<>();
+        List<ClienteResponseDto> clienteDtoLista = new ArrayList<>();
 
         clienteRepository.findAll().stream().forEach(
                 cliente ->
                         clienteDtoLista
-                                .add(new ClienteDto(cliente))
+                                .add(toClienteResponseMapper.toResponse(cliente))
         );
 
 
@@ -66,14 +77,14 @@ public class ClienteService {
 
     }
 
-    public ClienteDto obter(Integer id) {
+    public ClienteResponseDto obter(Integer id) {
 
         Cliente clienteObtido =
                 clienteRepository
                         .findById(id)
                         .get();
 
-        return new ClienteDto(clienteObtido);
+        return toClienteResponseMapper.toResponse(clienteObtido);
 
     }
 }

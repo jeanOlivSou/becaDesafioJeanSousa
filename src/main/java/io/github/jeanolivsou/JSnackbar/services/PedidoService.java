@@ -1,47 +1,58 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
 
-import io.github.jeanolivsou.JSnackbar.dtos.PedidoDto;
+
+import io.github.jeanolivsou.JSnackbar.dtos.requests.PedidoRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.PedidoResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Pedido;
+import io.github.jeanolivsou.JSnackbar.mappers.PedidoRequestToPedidoMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.PedidoToPedidoResponseMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.UpdatePedidoMapper;
 import io.github.jeanolivsou.JSnackbar.repositories.PedidoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PedidoService {
 
-    @Autowired
-    PedidoRepository pedidoRepository;
 
-    public PedidoDto criar(Pedido pedido){
+    private final PedidoRepository pedidoRepository;
+    private final PedidoRequestToPedidoMapper toPedidoMapper;
+    private final PedidoToPedidoResponseMapper toPedidoResponseMapper;
+    private final UpdatePedidoMapper updatePedidoMapper;
 
-        Pedido pedidoSalvo =
-                pedidoRepository
-                        .save(pedido);
+    public PedidoResponseDto criar(PedidoRequestDto pedidoRequestDto){
 
-        return new PedidoDto(pedidoSalvo);
+        Pedido pedido =
+                toPedidoMapper
+                        .toEntity(pedidoRequestDto);
+
+        PedidoResponseDto pedidoResponse =
+                toPedidoResponseMapper
+                        .toResponse(pedido);
+
+        pedidoRepository.save(pedido);
+
+        return pedidoResponse;
     }
 
-    public Pedido atualizar(PedidoDto pedidoDto, Integer id) {
+    public PedidoResponseDto atualizar(PedidoRequestDto pedidoRequestDto, Integer id) {
 
-        return pedidoRepository
+        Pedido pedido = pedidoRepository
                 .findById(id)
-                .map(pedido -> {
-                    pedido.setStatus(pedidoDto.getStatus());
-                    pedido.setDataPedido(pedidoDto.getDataPedido());
-                    pedido.setCliente(pedidoDto.getCliente());
-                    pedido.setItens(pedidoDto.getItens());
+                .get();
 
-                    return pedidoRepository.save(pedido);
-                })
-                .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND));
+        updatePedidoMapper.update(pedidoRequestDto, pedido);
+
+        pedidoRepository.save(pedido);
+
+        return toPedidoResponseMapper.toResponse(pedido);
+
     }
 
     public void deletar(Integer id){
@@ -50,19 +61,19 @@ public class PedidoService {
 
     }
 
-    public List<PedidoDto> listar(){
-        List<PedidoDto> pedidoDtoLista = new ArrayList<>();
+    public List<PedidoResponseDto> listar(){
+        List<PedidoResponseDto> pedidoDtoLista = new ArrayList<>();
 
         pedidoRepository.findAll().stream().forEach(
                 pedido ->
                         pedidoDtoLista
-                                .add(new PedidoDto(pedido))
+                                .add(toPedidoResponseMapper.toResponse(pedido))
         );
 
         return pedidoDtoLista;
     }
 
-    public PedidoDto obter(Integer id){
+    public PedidoResponseDto obter(Integer id){
 
         Pedido pedidoObtido =
                 pedidoRepository
@@ -70,7 +81,7 @@ public class PedidoService {
                         .get();
 
 
-        return new PedidoDto(pedidoObtido);
+        return toPedidoResponseMapper.toResponse(pedidoObtido);
 
     }
 }
