@@ -19,7 +19,7 @@ public class ItemPedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Min(value = 1)
+    @Min(value = 1, message = "{qtd.not.valid}")
     private Integer qtd;
 
     @Positive(message = "{preco.not.valid}")
