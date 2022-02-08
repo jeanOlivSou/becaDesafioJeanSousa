@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
 
 
 @Data
@@ -18,11 +16,7 @@ public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Min(value = 1)
     private Integer qtd;
-
-    @Positive(message = "{preco.not.valid}")
     private Double preco;
 
     @ManyToOne
