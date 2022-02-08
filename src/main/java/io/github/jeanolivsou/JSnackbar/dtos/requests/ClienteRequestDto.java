@@ -14,7 +14,7 @@ public class ClienteRequestDto {
     private Integer id;
 
     @NotBlank(message = "{campo.not.blank}")
-    @Pattern(regexp = "^[A-Z]+(.)*")
+    @Pattern(regexp = "^[A-Z]+(.)*", message = "{pattern.not.valid}")
     private String nome;
 
     @CPF(message = "{cpf.not.valid}")
