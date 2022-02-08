@@ -1,85 +1,31 @@
 package io.github.jeanolivsou.JSnackbar.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 import javax.persistence.*;
-import java.util.Objects;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Min(value = 1)
     private Integer qtd;
+
+    @Positive(message = "{preco.not.valid}")
     private Double preco;
 
     @ManyToOne
     private Lanche lanche;
 
-    public ItemPedido() {
-    }
-
-    public ItemPedido(Integer id, Integer qtd, Double preco, Lanche lanche) {
-        this.id = id;
-        this.qtd = qtd;
-        this.preco = preco;
-        this.lanche = lanche;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getQtd() {
-        return qtd;
-    }
-
-    public void setQtd(Integer qtd) {
-        this.qtd = qtd;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public Lanche getLanche() {
-        return lanche;
-    }
-
-    public void setLanche(Lanche lanche) {
-        this.lanche = lanche;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ItemPedido that = (ItemPedido) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "ItemPedido{" +
-                "id=" + id +
-                ", qtd=" + qtd +
-                ", preco=" + preco +
-                ", lanche=" + lanche +
-                '}';
-    }
 }

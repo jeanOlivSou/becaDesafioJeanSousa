@@ -1,42 +1,59 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
+
+
+import io.github.jeanolivsou.JSnackbar.dtos.requests.ClienteRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.ClienteResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Cliente;
+import io.github.jeanolivsou.JSnackbar.mappers.ClienteRequestToClienteMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.ClienteToClienteResponseMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.UpdateClienteMapper;
 import io.github.jeanolivsou.JSnackbar.repositories.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
 
-    public Cliente criar(Cliente cliente) {
+    private final ClienteRepository clienteRepository;
+    private final ClienteRequestToClienteMapper toClienteMapper;
+    private final ClienteToClienteResponseMapper toClienteResponseMapper;
+    private final UpdateClienteMapper updateClienteMapper;
 
-        Cliente clienteSalvo =
-                clienteRepository
-                        .save(cliente);
+    public ClienteResponseDto criar(ClienteRequestDto clienteRequestDto) {
 
-        return clienteSalvo;
+        Cliente cliente =
+                toClienteMapper
+                        .toEntity(clienteRequestDto);
+
+        ClienteResponseDto clienteResponse =
+                toClienteResponseMapper
+                        .toResponse(cliente);
+
+        clienteRepository.save(cliente);
+
+        return clienteResponse;
 
     }
 
-    public Cliente atualizar( Cliente cliente, Integer id){
+    public ClienteResponseDto atualizar(ClienteRequestDto clienteRequestDto, Integer id){
 
-        Cliente clienteAtual = this.obter(id);
+        Cliente cliente =
+                clienteRepository
+                        .findById(id)
+                        .get();
 
-        clienteAtual.setNome(cliente.getNome());
-        clienteAtual.setCpf(cliente.getCpf());
-        clienteAtual.setTel(cliente.getTel());
-        clienteAtual.setEndereco(cliente.getEndereco());
-        clienteAtual.setSenha(cliente.getSenha());
-        clienteAtual.setEmail(cliente.getEmail());
+        updateClienteMapper.update(clienteRequestDto, cliente);
 
-        clienteRepository.save(clienteAtual);
+        clienteRepository.save(cliente);
 
-        return cliente;
+        return toClienteResponseMapper.toResponse(cliente);
     }
 
     public void deletar(Integer id){
@@ -45,24 +62,29 @@ public class ClienteService {
 
     }
 
-    public List<Cliente> listar(){
+    public List<ClienteResponseDto> listar(){
 
-        List<Cliente> clienteLista =
-                clienteRepository
-                        .findAll();
+        List<ClienteResponseDto> clienteDtoLista = new ArrayList<>();
 
-        return clienteLista;
+        clienteRepository.findAll().stream().forEach(
+                cliente ->
+                        clienteDtoLista
+                                .add(toClienteResponseMapper.toResponse(cliente))
+        );
+
+
+        return clienteDtoLista;
 
     }
 
-    public Cliente obter(Integer id) {
+    public ClienteResponseDto obter(Integer id) {
 
         Cliente clienteObtido =
                 clienteRepository
                         .findById(id)
                         .get();
 
-        return clienteObtido;
+        return toClienteResponseMapper.toResponse(clienteObtido);
 
     }
 }

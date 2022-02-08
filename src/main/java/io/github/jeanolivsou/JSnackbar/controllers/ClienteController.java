@@ -1,11 +1,15 @@
 package io.github.jeanolivsou.JSnackbar.controllers;
 
 
-import io.github.jeanolivsou.JSnackbar.entities.Cliente;
+
+import io.github.jeanolivsou.JSnackbar.dtos.requests.ClienteRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.ClienteResponseDto;
 import io.github.jeanolivsou.JSnackbar.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -16,45 +20,46 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+
     @PostMapping
-    public ResponseEntity<Cliente>  criar(@RequestBody Cliente cliente) {
+    public ResponseEntity<ClienteResponseDto>
+    criar(@RequestBody @Valid ClienteRequestDto clienteRequestDto) {
 
-        Cliente clienteCriado = clienteService.criar(cliente);
-
-        return ResponseEntity.created(null).body(clienteCriado);
+        return ResponseEntity
+                .created(null)
+                .body(clienteService.criar(clienteRequestDto));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Cliente>
-    atualizar(@RequestBody Cliente cliente, @PathVariable Integer id) {
+    public ResponseEntity<ClienteResponseDto> atualizar(@RequestBody @Valid ClienteRequestDto clienteRequestDto, @PathVariable Integer id) {
 
-        Cliente clienteAtualizado =
-                clienteService.atualizar(cliente, id);
-
-        return ResponseEntity
-                .ok(clienteAtualizado);
+        return ResponseEntity.ok(clienteService.atualizar(clienteRequestDto, id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable Integer id){
+    public ResponseEntity<String>
+    deletar(@PathVariable Integer id){
+
         clienteService.deletar(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listar(){
-        List<Cliente> clienteLista =
-                clienteService.listar();
+    public ResponseEntity<List<ClienteResponseDto>> listar(){
 
-        return ResponseEntity.ok(clienteLista);
+        return ResponseEntity
+                .ok(clienteService.listar());
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> obter(@PathVariable Integer id) {
-        Cliente clienteObtido = clienteService.obter(id);
-        return ResponseEntity.ok(clienteObtido);
+    public ResponseEntity<ClienteResponseDto> obter(@PathVariable Integer id) {
+
+        return ResponseEntity
+                .ok(clienteService.obter(id));
 
     }
 

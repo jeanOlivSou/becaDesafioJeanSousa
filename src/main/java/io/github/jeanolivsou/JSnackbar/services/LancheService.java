@@ -1,61 +1,86 @@
 package io.github.jeanolivsou.JSnackbar.services;
 
+import io.github.jeanolivsou.JSnackbar.dtos.requests.LancheRequestDto;
+import io.github.jeanolivsou.JSnackbar.dtos.responses.LancheResponseDto;
 import io.github.jeanolivsou.JSnackbar.entities.Lanche;
+import io.github.jeanolivsou.JSnackbar.mappers.LancheRequestToLancheMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.LancheToLancheResponseMapper;
+import io.github.jeanolivsou.JSnackbar.mappers.UpdateLancheMapper;
 import io.github.jeanolivsou.JSnackbar.repositories.LacheRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
+@RequiredArgsConstructor
 public class LancheService {
 
-    @Autowired
-    private LacheRepository lacheRepository;
+    private final LacheRepository lancheRepository;
+    private final LancheRequestToLancheMapper toLancheMapper;
+    private final LancheToLancheResponseMapper toLancheResponseMapper;
+    private final UpdateLancheMapper updateLancheMapper;
 
-    public Lanche criar(Lanche lanche){
+    public LancheResponseDto criar(LancheRequestDto lancheRequestDto){
 
-        Lanche lancheSalvo =
-                lacheRepository
-                        .save(lanche);
+        Lanche lanche = toLancheMapper
+                .toEntity(lancheRequestDto);
 
-        return lancheSalvo;
+        LancheResponseDto lancheResponse =
+                toLancheResponseMapper
+                        .toResponse(lanche);
+
+        lancheRepository.save(lanche);
+
+
+        return lancheResponse;
     }
 
-    public Lanche atualizar( Lanche lanche, Integer id){
-        Lanche lancheAtual = this.obter(id);
+    public LancheResponseDto atualizar( LancheRequestDto lancheRequestDto, Integer id){
 
-        lancheAtual.setNome(lancheAtual.getNome());
-        lancheAtual.setDesc(lancheAtual.getDesc());
-        lancheAtual.setPrecoUnit(lancheAtual.getPrecoUnit());
+        Lanche lanche =
+                lancheRepository
+                        .findById(id)
+                        .get();
 
-        lacheRepository.save(lancheAtual);
+        updateLancheMapper.update(lancheRequestDto, lanche);
 
-        return lanche;
+        lancheRepository.save(lanche);
+
+        return toLancheResponseMapper.toResponse(lanche);
     }
 
     public void deletar( Integer id){
 
-        lacheRepository.deleteById(id);
+        lancheRepository.deleteById(id);
 
     }
 
-    public List<Lanche> listar(){
+    public List<LancheResponseDto> listar(){
 
-        List<Lanche> lancheLista =
-                lacheRepository
-                        .findAll();
+        List<LancheResponseDto> lancheDtoLista = new ArrayList<>();
 
-        return lancheLista;
+        lancheRepository.findAll().stream().forEach(
+                lanche ->
+                        lancheDtoLista
+                                .add(toLancheResponseMapper.toResponse(lanche))
+        );
+
+        return lancheDtoLista;
     }
 
-    public Lanche obter(Integer id) {
+    public LancheResponseDto obter(Integer id) {
 
        Lanche lancheObtido =
-               lacheRepository
+               lancheRepository
                        .findById(id)
                        .get();
 
-        return lancheObtido;
+        return toLancheResponseMapper
+                .toResponse(lancheObtido);
     }
 }
