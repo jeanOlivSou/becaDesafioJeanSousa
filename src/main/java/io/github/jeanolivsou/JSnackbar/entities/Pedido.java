@@ -21,11 +21,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @NotBlank(message = "{campo.not.blank}")
     private String status;
-
-    @PastOrPresent(message = "{date.not.valid}")
     private Date dataPedido;
 
     @OneToOne
@@ -33,8 +29,6 @@ public class Pedido {
 
     @OneToMany
     private List<ItemPedido> itens;
-
-    @Positive(message = "{preco.not.valid}")
     private Double total;
 
 

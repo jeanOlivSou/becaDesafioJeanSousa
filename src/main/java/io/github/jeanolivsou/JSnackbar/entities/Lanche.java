@@ -17,14 +17,8 @@ public class Lanche {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @NotBlank(message = "{campo.not.blank}")
     private String nome;
-
-    @NotBlank(message = "{campo.not.blank}")
     private String desc;
-
-    @Positive(message = "{preco.not.valid}")
     private Double precoUnit;
 
 }
