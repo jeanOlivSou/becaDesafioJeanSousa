@@ -15,7 +15,7 @@ public class PedidoResponseDto {
     private String status;
     private LocalDateTime dataPedido = LocalDateTime.now();
     private Cliente cliente;
-    private List<ItemPedido> itens;
+    private List<ItemPedidoResponseDto> itens;
     private Double total;
 
 }
