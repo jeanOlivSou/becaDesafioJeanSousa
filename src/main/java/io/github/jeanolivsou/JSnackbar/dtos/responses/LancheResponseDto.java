@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LancheResponseDto {
     private String nome;
-    private String desc;
+    private String descricao;
     private Double precoUnit;
 }
