@@ -1,0 +1,9 @@
+version: '3.1'
+  services:
+    jsnackbardb:
+      image: mysql
+      ports:
+        - "3307:3306"
+      environment:
+        - MYSQL_ROOT_PASSWORD=315096
+      restart: always
