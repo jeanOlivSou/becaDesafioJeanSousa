@@ -14,7 +14,7 @@ public class LancheRequestDto {
     private String nome;
 
     @NotBlank(message = "{campo.not.blank}")
-    private String desc;
+    private String descricao;
 
     @Positive(message = "{preco.not.valid}")
     private Double precoUnit;

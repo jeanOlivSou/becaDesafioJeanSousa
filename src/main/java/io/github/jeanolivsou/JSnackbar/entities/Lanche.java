@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +16,7 @@ public class Lanche {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    private String desc;
+    private String descricao;
     private Double precoUnit;
 
 }
