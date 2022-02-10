@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -16,7 +16,7 @@ public class PedidoRequestDto {
     private String status;
 
     @PastOrPresent(message = "{date.not.valid}")
-    private Date dataPedido;
+    private LocalDateTime dataPedido = LocalDateTime.now();
 
 
     private ClienteRequestDto cliente;
