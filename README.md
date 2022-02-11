@@ -1,7 +1,14 @@
+# Projeto: JSnackbar
+
+## Autor: [Jean Sousa](https://github.com/jeanOlivSou/) Mentor: [Lucas Guimarães](https://github.com/guimatech)
+
+
 # Resumo do sistema
 
 Visando em automatizar a vendas de uma lanchonete, esta aplicação consiste em um sistema de vendas de lanche em que o cliente visualiza os produtos a vendas no cardápio e em seguida os seleciona, bem como a quantidade deles, conforme os itens vão sendo adicionados vai sendo somado o subtotal dos itens, ao finalizar a compra, o cliente pode acompanhar o status do pedido até o momento de ser entregue.
 _____________
+# Tecnologias Utilizadas
+![spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 
 # Modelo conceitual
 
