@@ -16,7 +16,7 @@ Visando em automatizar a vendas de uma lanchonete, esta aplicação consiste em 
 
 # Modelo conceitual
 
-![classesJSnackbar.drawio.png](classesJSnackbar.drawio.png)
+![diagramaClasses.png](diagramaClasses.png)
 
 _____________
 
