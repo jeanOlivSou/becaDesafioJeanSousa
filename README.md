@@ -1,6 +1,6 @@
 # Projeto: JSnackbar
 
-## Autor: [Jean Sousa](https://github.com/jeanOlivSou/) Mentor: [Lucas Guimarães](https://github.com/guimatech)
+## Autor: [Jean Sousa](https://github.com/jeanOlivSou/)     Mentor: [Lucas Guimarães](https://github.com/guimatech)
 
 
 # Resumo do sistema
