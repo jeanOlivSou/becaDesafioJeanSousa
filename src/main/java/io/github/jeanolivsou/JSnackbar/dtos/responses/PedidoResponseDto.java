@@ -5,9 +5,7 @@ import io.github.jeanolivsou.JSnackbar.entities.ItemPedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -15,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class PedidoResponseDto {
     private String status;
-    private Date dataPedido;
+    private LocalDateTime dataPedido = LocalDateTime.now();
     private Cliente cliente;
-    private List<ItemPedido> itens;
+    private List<ItemPedidoResponseDto> itens;
     private Double total;
 
 }
