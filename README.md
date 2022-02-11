@@ -6,9 +6,12 @@
 # Resumo do sistema
 
 Visando em automatizar a vendas de uma lanchonete, esta aplicação consiste em um sistema de vendas de lanche em que o cliente visualiza os produtos a vendas no cardápio e em seguida os seleciona, bem como a quantidade deles, conforme os itens vão sendo adicionados vai sendo somado o subtotal dos itens, ao finalizar a compra, o cliente pode acompanhar o status do pedido até o momento de ser entregue.
+<br/>
 _____________
+<br/>
 # Tecnologias Utilizadas
-![spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
+![spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+<br/>
 
 # Modelo conceitual
 
@@ -53,12 +56,12 @@ Exemplo de JSON para requisição POST `/pedido` :
     "dataPedido": "2022-01-24T16:07:55.958+00:00",
     "cliente": {
         "id": 1,
-            "nome": "zeca",
-            "cpf": 25415454,
-            "endereco": "fgjdigodijgfoij",
-            "tel": 625151,
-            "senha": "dfkjgkdfjg",
-            "email": "djfdsjf"
+            "nome": "Zeca Da Silva",
+            "cpf": "40265633087",
+            "endereco": "Rua 3, apt. 101",
+            "tel": "61994933278",
+            "senha": "FH@43jkjo",
+            "email": "zeca.silva@loremipsum.com"
     },
     "itens": [
         {
@@ -68,7 +71,7 @@ Exemplo de JSON para requisição POST `/pedido` :
                 "lanche": {
                     "id": 1,
                     "nome": "Coxinha",
-                    "desc": "sdkjlksjflkjsdjshf",
+                    "desc": "Sabor: Frango com Catupiry",
                     "precoUnit": 1.5
                 }
         }
@@ -77,4 +80,16 @@ Exemplo de JSON para requisição POST `/pedido` :
     "status": "Preparando"
 }
 ```
+<br/>
 
+# Validações e Exceções tratadas
+</br>
+* Na Requisição de cadastrar um Cliente deve fornecer um CPF válido.
+* No Campo nome do Cliente deve ser iniciar por uma letrar maiúsculas.
+* Validações de campo vazio.
+* O campo senha deve ter no 8 caracteres e no máximo 20.
+* O campo email deve conter um email válido.
+* A quantidade item de pedido deve ser no minimo um 1.
+* Os valores de preço unitario do lanche, preço de itens e o total do pedido devem ser positivos.
+* Na tentativa de consultar (GET) ou apagar(DELETE) um registro com id inexistente retorna uma resposta HTTP Erro 404.
+* Ao mandar uma requisição via JSON com um JSON inválido retorna uma resposta HTTP Bad request 400 e informa que o JSON está com erro de sintaxe.
